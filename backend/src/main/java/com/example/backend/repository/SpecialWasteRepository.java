@@ -1,10 +1,10 @@
 package com.example.backend.repository;
 
-import com.example.backend.entity.WasteManagement;
+import com.example.backend.entity.SpecialWaste;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WasteManagementRepository extends JpaRepository<WasteManagement, Long> {
+public interface SpecialWasteRepository extends JpaRepository<SpecialWaste, Long> {
 
 }
