@@ -19,8 +19,13 @@ public class User {
     private String email;
     private String password;
     private String phone;
+    private String paymentType; //preferred payment type
 
     //special waste list
-    @OneToMany
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<SpecialWaste> specialWastes;
+
+    //payment
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Payment> payments;
 }

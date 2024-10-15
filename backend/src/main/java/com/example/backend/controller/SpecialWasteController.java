@@ -8,29 +8,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/waste-management")
+@RequestMapping("/api/special-waste")
 public class SpecialWasteController {
 
     @Autowired
     private SpecialWasteService specialWasteService;
 
     @GetMapping
-    public List<SpecialWaste> getAllWasteManagementEntries() {
-        return specialWasteService.getAllWasteManagementEntries();
+    public List<SpecialWaste> getAllSpecialWaste() {
+        return specialWasteService.getAllSpecialWaste();
     }
 
     @GetMapping("/{id}")
-    public SpecialWaste getWasteManagementById(@PathVariable Long id) {
-        return specialWasteService.getWasteManagementById(id);
+    public SpecialWaste getSpecialWasteById(@PathVariable Long id) {
+        return specialWasteService.getSpecialWasteById(id);
     }
 
     @PostMapping
-    public SpecialWaste createWasteManagementEntry(@RequestBody SpecialWaste specialWaste) {
-        return specialWasteService.saveWasteManagementEntry(specialWaste);
+    public SpecialWaste saveSpecialWaste(@RequestBody SpecialWaste specialWaste) {
+        return specialWasteService.saveSpecialWaste(specialWaste);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteWasteManagementEntry(@PathVariable Long id) {
-        specialWasteService.deleteWasteManagementEntry(id);
+    public void deleteSpecialWasteById(@PathVariable Long id) {
+        specialWasteService.deleteSpecialWasteById(id);
     }
 }

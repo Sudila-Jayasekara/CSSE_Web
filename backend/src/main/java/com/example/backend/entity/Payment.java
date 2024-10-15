@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -15,7 +17,13 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String type; //this get automatically  from user's preferred type
     private Double amount;
-    private String method; //need to add weight based and flat fee
+    private LocalDateTime dateTime;
+
+    //reference to user
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

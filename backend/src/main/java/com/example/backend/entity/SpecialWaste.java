@@ -19,8 +19,8 @@ public class SpecialWaste {
     private String description;
     private Double wasteQuantity;
     private LocalDateTime dateTime;
-    private Double earn;
 
+    //reference to user
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
