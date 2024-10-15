@@ -17,16 +17,16 @@ public class SpecialWasteService {
         return specialWasteRepository.findAll();  // Call on instance, not statically
     }
 
-    public SpecialWaste getSpecialWasteById(Long classId) {
-        return specialWasteRepository.findById(classId).orElse(null);  // Call on instance
+    public SpecialWaste getSpecialWasteById(Long specialWasteId) {
+        return specialWasteRepository.findById(specialWasteId).orElse(null);  // Call on instance
     }
 
     public SpecialWaste saveSpecialWaste(SpecialWaste classEntity) {
         return specialWasteRepository.save(classEntity);  // Call on instance
     }
 
-    public void deleteSpecialWasteById(Long classId) {
-        specialWasteRepository.deleteById(classId);  // Call on instance
+    public void deleteSpecialWasteById(Long specialWasteId) {
+        specialWasteRepository.deleteById(specialWasteId);  // Call on instance
     }
 
 }

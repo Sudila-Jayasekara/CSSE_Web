@@ -1,4 +1,5 @@
 package com.example.backend.entity;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,19 +9,23 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "special_wastes")
-public class SpecialWaste {
+@AllArgsConstructor
+@Table(name = "rewards")
+public class Reward {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String wasteType;
-    private String description;
+
+    private Double amount;
     private LocalDateTime dateTime;
 
     //reference to user
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToOne
+    @JoinColumn(name = "recycle_item_id")
+    private RecycleItem recycleItem;
 }

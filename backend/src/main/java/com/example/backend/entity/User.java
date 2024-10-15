@@ -25,7 +25,15 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<SpecialWaste> specialWastes;
 
+    //recycle item list
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<RecycleItem> recycleItems;
+
     //payment
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Payment> payments;
+
+    //reward
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Reward> rewards;
 }
