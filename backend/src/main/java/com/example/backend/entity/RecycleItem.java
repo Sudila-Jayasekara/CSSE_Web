@@ -1,9 +1,9 @@
 package com.example.backend.entity;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 
 import java.time.LocalDateTime;
 
@@ -16,15 +16,21 @@ public class RecycleItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String wasteType;
+
+    @Column(nullable = false)
     private String totalQuantity;
+
+    @Column(nullable = false)
     private LocalDateTime dateTime;
 
-    //reference to user
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @OneToOne(mappedBy = "recycleItem", cascade = CascadeType.ALL)
-    private Reward reward;
+    private Payment payment;
+
 }

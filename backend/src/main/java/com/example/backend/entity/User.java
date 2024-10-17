@@ -15,6 +15,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String email;
     private String password;
@@ -33,7 +34,4 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Payment> payments;
 
-    //reward
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Reward> rewards;
 }

@@ -18,6 +18,7 @@ import WasteCollectionPage from './pages/WasteCollection/WasteCollectionPage';
 // Waste Management
 import WasteManagementPage from './pages/WasteManagement/WasteManagementPage';
 
+
 function App() {
   return (
     <BrowserRouter>
