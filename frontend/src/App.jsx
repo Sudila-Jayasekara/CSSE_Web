@@ -4,7 +4,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import pages
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
-import Layout from './components/Layout';
+import Layout from './components/Layout/Layout';
+import LoginPage from './pages/User/LoginPage';
+import RegisterPage from './pages/User/RegisterPage';
+import Users from './pages/User/Users';
 
 // Data Analytics
 import AnalyicsDashboard from './pages/DataAnalytics/AnalyticsDashboard';
@@ -17,6 +20,7 @@ import WasteCollectionPage from './pages/WasteCollection/WasteCollectionPage';
 
 // Waste Management
 import WasteManagementPage from './pages/WasteManagement/WasteManagementPage';
+import RecycleItems from './pages/WasteManagement/RecycleItems/RecycleItems';
 
 
 function App() {
@@ -24,6 +28,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout><HomePage /></Layout>} />
+        <Route path="/login" element={<Layout><LoginPage /></Layout>} />
+        <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
+        <Route path='/users' element={<Layout><Users /></Layout>} />
+
         
         {/* Data Analytics */}
         <Route path="/data-analytics" element={<Layout><AnalyicsDashboard /></Layout>} />
@@ -36,6 +44,7 @@ function App() {
 
         {/* Waste Management */}
         <Route path="/waste-management" element={<Layout><WasteManagementPage /></Layout>} />
+        <Route path="/waste-management/recycle-items" element={<Layout><RecycleItems /></Layout>} />
 
         {/* 404 Page Not Found */}
         <Route path="*" element={<NotFoundPage />} />

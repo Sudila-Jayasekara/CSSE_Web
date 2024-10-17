@@ -4,6 +4,7 @@ import com.example.backend.entity.SpecialWaste;
 import com.example.backend.entity.User;
 import com.example.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,16 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable Long id) {
         userService.deleteUserById(id);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody User user) {
+        User loggedInUser = userService.login(user.getEmail(), user.getPassword());
+        if (loggedInUser != null) {
+            return ResponseEntity.ok(loggedInUser);
+        } else {
+            return ResponseEntity.status(401).body(null); // Unauthorized if credentials are invalid
+        }
     }
 
 }

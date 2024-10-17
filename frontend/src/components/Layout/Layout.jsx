@@ -12,8 +12,8 @@ const Layout = ({ children }) => {
       <Header />
       <div className="flex flex-1">
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} />
-        <main className="flex-1 p-4">
-          <Breadcrumb />
+        <main className="flex-1">
+          {/* <Breadcrumb /> */}
           {children}
         </main>
       </div>
