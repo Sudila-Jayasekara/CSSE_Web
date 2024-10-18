@@ -22,6 +22,8 @@ import WasteCollectionPage from './pages/WasteCollection/WasteCollectionPage';
 import WasteManagementPage from './pages/WasteManagement/WasteManagementPage';
 import RecycleItems from './pages/WasteManagement/RecycleItems/RecycleItems';
 
+import PaymentForm from './components/Payment/PaymentForm';
+
 
 function App() {
   return (
@@ -45,6 +47,8 @@ function App() {
         {/* Waste Management */}
         <Route path="/waste-management" element={<Layout><WasteManagementPage /></Layout>} />
         <Route path="/waste-management/recycle-items" element={<Layout><RecycleItems /></Layout>} />
+
+        <Route path='/paymentform' element={<Layout><PaymentForm /></Layout>} />
 
         {/* 404 Page Not Found */}
         <Route path="*" element={<NotFoundPage />} />
