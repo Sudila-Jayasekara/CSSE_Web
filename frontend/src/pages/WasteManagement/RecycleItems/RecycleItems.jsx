@@ -1,82 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { recycleItemService } from '../../../services/WasteManagement/RecycleItemService';
-
-const RecycleItem = ({ item, handleDelete, isAdmin, index }) => {
-  const formatDateTime = (dateTime) => {
-    const dateObj = new Date(dateTime);
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const timeOptions = { hour: 'numeric', minute: 'numeric', hour12: true };
-
-    const formattedDate = dateObj.toLocaleDateString(undefined, options);
-    const formattedTime = dateObj.toLocaleTimeString(undefined, timeOptions);
-
-    return { formattedDate, formattedTime };
-  };
-
-  const { formattedDate, formattedTime } = formatDateTime(item.dateTime);
-
-  return (
-    <tr key={item.id} className="border-t">
-      <td className="py-3 px-4 text-gray-800">{index + 1}</td>
-      {isAdmin && (
-        <>
-          <td className="py-3 px-4 text-gray-800">{item.user.name}</td>
-          <td className="py-3 px-4 text-gray-800">{item.user.id}</td>
-
-        </>
-      )}
-      <td className="py-3 px-4 text-gray-800">{item.wasteType}</td>
-      <td className="py-3 px-4 text-gray-800">{item.totalQuantity}</td>
-      <td className="py-3 px-4 text-gray-800">{formattedDate}</td>
-      <td className="py-3 px-4 text-gray-800">{formattedTime}</td>
-
-      <td className="py-3 px-4">
-        <button
-          onClick={() => handleDelete(item.id)}
-          className="text-red-500 hover:text-red-700"
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
-  );
-};
-
-const RecycleItemsTable = ({ recycleItems, handleDelete, isAdmin }) => {
-  return (
-    <table className="min-w-full table-auto border-collapse">
-      <thead className="bg-green-600 text-white">
-        <tr>
-          <th className="py-3 px-4 text-left">#</th>
-          {isAdmin && (
-            <>
-              <th className="py-3 px-4 text-left">User Name</th>
-              <th className="py-3 px-4 text-left">User ID</th>
-
-            </>
-          )}
-          <th className="py-3 px-4 text-left">Waste Type</th>
-          <th className="py-3 px-4 text-left">Quantity</th>
-          <th className="py-3 px-4 text-left">Date</th>
-          <th className="py-3 px-4 text-left">Time</th>
-
-          <th className="py-3 px-4 text-left">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {recycleItems.map((item, index) => (
-          <RecycleItem
-            key={item.id}
-            item={item}
-            handleDelete={handleDelete}
-            isAdmin={isAdmin}
-            index={index} // Pass the index to the RecycleItem component
-          />
-        ))}
-      </tbody>
-    </table>
-  );
-};
+import { paymentService } from '../../../services/paymentService';
+import PaymentModal from '../PaymentModel';
 
 const RecycleItems = () => {
   const [recycleItems, setRecycleItems] = useState([]);
@@ -84,6 +9,8 @@ const RecycleItems = () => {
   const [error, setError] = useState('');
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [userRole, setUserRole] = useState(null);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [selectedRecycleItem, setSelectedRecycleItem] = useState(null);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -114,16 +41,100 @@ const RecycleItems = () => {
     fetchRecycleItems();
   }, [loggedInUserId, userRole]);
 
+  const RecycleItemsTable = ({ recycleItems, handleDelete, handlePaymentClick, isAdmin }) => {
+    return (
+      <table className="table-auto w-full">
+        <thead>
+          <tr>
+            <th className="px-4 py-2">#</th>
+            {isAdmin && (
+              <>
+                <th className="px-4 py-2">User Name</th>
+                <th className="px-4 py-2">User ID</th>
+              </>
+            )}
+            <th className="px-4 py-2">Waste Type</th>
+            <th className="px-4 py-2">Total Quantity</th>
+            <th className="px-4 py-2">Date</th>
+            <th className="px-4 py-2">Time</th>
+            <th className="px-4 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {recycleItems.map((item, index) => (
+            <tr key={item.id} className="border-t">
+              <td className="py-3 px-4">{index + 1}</td>
+              {isAdmin && (
+                <>
+                  <td className="py-3 px-4">{item.user.name}</td>
+                  <td className="py-3 px-4">{item.user.id}</td>
+                </>
+              )}
+              <td className="py-3 px-4">{item.wasteType}</td>
+              <td className="py-3 px-4">{item.totalQuantity}</td>
+              <td className="py-3 px-4">{new Date(item.dateTime).toLocaleDateString()}</td>
+              <td className="py-3 px-4">{new Date(item.dateTime).toLocaleTimeString()}</td>
+              <td className="py-3 px-4">
+                <button
+                  onClick={() => handlePaymentClick(item)}
+                  className="text-green-500 hover:text-green-700"
+                >
+                  Payment
+                </button>
+                <button
+                  onClick={() => handleDelete(item.id)}
+                  className="text-red-500 hover:text-red-700 ml-2"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+  
   const handleDelete = async (id) => {
     try {
       await recycleItemService.deleteRecycleItemById(id);
       alert('Recycle item deleted successfully');
-      // Re-fetch the recycle items list after deletion
       setRecycleItems(recycleItems.filter((item) => item.id !== id));
     } catch (error) {
       console.error('Error deleting recycle item:', error);
     }
   };
+
+  const handlePaymentClick = (recycleItem) => {
+    setSelectedRecycleItem(recycleItem);
+    setIsPaymentModalOpen(true);
+  };
+ 
+  const handlePayment = async (recycleItem, amount, dateTime) => {
+    try {
+        const paymentData = {
+            amount: amount,
+            dateTime: dateTime,
+            recycleItem:{
+                id: recycleItem.id,
+                user:{
+                    id: recycleItem.user.id
+                }
+            }
+        };
+
+        console.log('Payment data:', paymentData);
+
+        await paymentService.savePayment(paymentData);
+
+        alert('Payment saved successfully!');
+    } catch (error) {
+        console.error('Error making payment:', error);
+        alert('Error saving payment.');
+    }
+};
+
+
 
   if (loading) {
     return <div>Loading recycle items...</div>;
@@ -141,10 +152,18 @@ const RecycleItems = () => {
           <RecycleItemsTable
             recycleItems={recycleItems}
             handleDelete={handleDelete}
+            handlePaymentClick={handlePaymentClick}
             isAdmin={userRole === 'ADMIN'}
           />
         </div>
       </div>
+
+      <PaymentModal 
+        isOpen={isPaymentModalOpen} 
+        onClose={() => setIsPaymentModalOpen(false)} 
+        item={selectedRecycleItem} 
+        handlePayment={handlePayment} 
+      />
     </div>
   );
 };
