@@ -43,57 +43,60 @@ const RecycleItems = () => {
 
   const RecycleItemsTable = ({ recycleItems, handleDelete, handlePaymentClick, isAdmin }) => {
     return (
-      <table className="table-auto w-full">
-        <thead>
-          <tr>
-            <th className="px-4 py-2">#</th>
-            {isAdmin && (
-              <>
-                <th className="px-4 py-2">User Name</th>
-                <th className="px-4 py-2">User ID</th>
-              </>
-            )}
-            <th className="px-4 py-2">Waste Type</th>
-            <th className="px-4 py-2">Total Quantity</th>
-            <th className="px-4 py-2">Date</th>
-            <th className="px-4 py-2">Time</th>
-            <th className="px-4 py-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {recycleItems.map((item, index) => (
-            <tr key={item.id} className="border-t">
-              <td className="py-3 px-4">{index + 1}</td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-300 rounded-md shadow-md">
+          <thead className="bg-blue-600 text-white">
+            <tr>
+              <th className="px-4 py-3 text-left">#</th>
               {isAdmin && (
                 <>
-                  <td className="py-3 px-4">{item.user.name}</td>
-                  <td className="py-3 px-4">{item.user.id}</td>
+                  <th className="px-4 py-3 text-left">User Name</th>
+                  <th className="px-4 py-3 text-left">User ID</th>
                 </>
               )}
-              <td className="py-3 px-4">{item.wasteType}</td>
-              <td className="py-3 px-4">{item.totalQuantity}</td>
-              <td className="py-3 px-4">{new Date(item.dateTime).toLocaleDateString()}</td>
-              <td className="py-3 px-4">{new Date(item.dateTime).toLocaleTimeString()}</td>
-              <td className="py-3 px-4">
-                <button
-                  onClick={() => handlePaymentClick(item)}
-                  className="text-green-500 hover:text-green-700"
-                >
-                  Payment
-                </button>
-                <button
-                  onClick={() => handleDelete(item.id)}
-                  className="text-red-500 hover:text-red-700 ml-2"
-                >
-                  Delete
-                </button>
-              </td>
+              <th className="px-4 py-3 text-left">Waste Type</th>
+              <th className="px-4 py-3 text-left">Total Quantity</th>
+              <th className="px-4 py-3 text-left">Date</th>
+              <th className="px-4 py-3 text-left">Time</th>
+              <th className="px-4 py-3 text-left">Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {recycleItems.map((item, index) => (
+              <tr key={item.id} className="border-t border-gray-200">
+                <td className="py-3 px-4 text-gray-700">{index + 1}</td>
+                {isAdmin && (
+                  <>
+                    <td className="py-3 px-4 text-gray-700">{item.user.name}</td>
+                    <td className="py-3 px-4 text-gray-700">{item.user.id}</td>
+                  </>
+                )}
+                <td className="py-3 px-4 text-gray-700">{item.wasteType}</td>
+                <td className="py-3 px-4 text-gray-700">{item.totalQuantity}</td>
+                <td className="py-3 px-4 text-gray-700">{new Date(item.dateTime).toLocaleDateString()}</td>
+                <td className="py-3 px-4 text-gray-700">{new Date(item.dateTime).toLocaleTimeString()}</td>
+                <td className="py-3 px-4">
+                  <button
+                    onClick={() => handlePaymentClick(item)}
+                    className="text-green-500 hover:text-green-700 px-3 py-1 rounded-md bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+                  >
+                    Payment
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    className="text-red-500 hover:text-red-700 ml-2 px-3 py-1 rounded-md bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
   };
+  
   
   const handleDelete = async (id) => {
     try {
