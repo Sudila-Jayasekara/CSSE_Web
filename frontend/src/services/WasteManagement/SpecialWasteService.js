@@ -1,14 +1,14 @@
-const API_URL = "http://localhost:8080/api/recycle-item"; // Replace with your backend API URL
+const API_URL = "http://localhost:8080/api/special-waste"; // Replace with your backend API URL
 
-export const recycleItemService = {
-    getAllRecycleItems,
-    getRecycleItemById,
-    saveRecycleItem,
-    deleteRecycleItemById,
+export const specialWasteService = {
+    getAllSpecialWastes,
+    getSpecialWasteById,
+    saveSpecialWaste,
+    deleteSpecialWasteById,
 };
 
-// Fetch all recycle items
-async function getAllRecycleItems() {
+// Fetch all special wastes
+async function getAllSpecialWastes() {
     try {
         const response = await fetch(`${API_URL}`, {
             method: 'GET',
@@ -17,17 +17,17 @@ async function getAllRecycleItems() {
             },
         });
         if (!response.ok) {
-            throw new Error('Failed to fetch recycle items');
+            throw new Error('Failed to fetch special wastes');
         }
         return await response.json();
     } catch (error) {
-        console.error('Error fetching recycle items:', error);
+        console.error('Error fetching special wastes:', error);
         throw error;
     }
 }
 
-// Fetch a recycle item by ID
-async function getRecycleItemById(id) {
+// Fetch a special waste by ID
+async function getSpecialWasteById(id) {
     try {
         const response = await fetch(`${API_URL}/${id}`, {
             method: 'GET',
@@ -36,37 +36,37 @@ async function getRecycleItemById(id) {
             },
         });
         if (!response.ok) {
-            throw new Error(`Failed to fetch recycle item with id ${id}`);
+            throw new Error(`Failed to fetch special waste with id ${id}`);
         }
         return await response.json();
     } catch (error) {
-        console.error('Error fetching recycle item by id:', error);
+        console.error('Error fetching special waste by id:', error);
         throw error;
     }
 }
 
-// Save a new recycle item
-async function saveRecycleItem(recycleItem) {
+// Save a new special waste
+async function saveSpecialWaste(specialWaste) {
     try {
         const response = await fetch(`${API_URL}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(recycleItem),
+            body: JSON.stringify(specialWaste),
         });
         if (!response.ok) {
-            throw new Error('Failed to save recycle item');
+            throw new Error('Failed to save special waste');
         }
         return await response.json();
     } catch (error) {
-        console.error('Error saving recycle item:', error);
+        console.error('Error saving special waste:', error);
         throw error;
     }
 }
 
-// Delete a recycle item by ID
-async function deleteRecycleItemById(id) {
+// Delete a special waste by ID
+async function deleteSpecialWasteById(id) {
     try {
         const response = await fetch(`${API_URL}/${id}`, {
             method: 'DELETE',
@@ -75,10 +75,10 @@ async function deleteRecycleItemById(id) {
             },
         });
         if (!response.ok) {
-            throw new Error(`Failed to delete recycle item with id ${id}`);
+            throw new Error(`Failed to delete special waste with id ${id}`);
         }
     } catch (error) {
-        console.error('Error deleting recycle item:', error);
+        console.error('Error deleting special waste:', error);
         throw error;
     }
 }
