@@ -14,7 +14,7 @@ import Users from './pages/User/Users';
 import AnalyicsDashboard from './pages/DataAnalytics/AnalyticsDashboard';
 
 // Payment Management
-import PaymentDashboard from './pages/PaymentManagement/PaymentPage';
+import PaymentPage from './pages/PaymentManagement/PaymentPage';
 
 // Waste Collection
 import WasteCollectionPage from './pages/WasteCollection/WasteCollectionPage';
@@ -45,7 +45,7 @@ function App() {
         <Route path="/data-analytics" element={<Layout><AnalyicsDashboard /></Layout>} />
 
         {/* Payment Management */}
-        <Route path="/payment-management" element={<Layout><PaymentDashboard /></Layout>} />
+        <Route path="/payment" element={<Layout><PaymentPage /></Layout>} />
 
         {/* Waste Collection */}
         <Route path="/waste-collection" element={<Layout><WasteCollectionPage /></Layout>} />

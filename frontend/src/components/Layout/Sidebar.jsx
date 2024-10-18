@@ -144,18 +144,39 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             )}
           </div>
 
-          <Link
-            to="/reports"
-            className={`block py-2 px-4 rounded-md ${
-              isActive('/reports') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-            }`}
-          >
-            Reports
-          </Link>
+          <div>
+            <button
+              className="block text-gray-300 hover:text-white py-2 px-4 rounded-md w-full text-left"
+              onClick={() => toggleSection('payment')}
+            >
+             Payments
+            </button>
+            {toggledSections['payment'] && (
+              <div className="pl-6 space-y-2">
+                <Link
+                  to="/payment"
+                  className={`block py-2 px-4 rounded-md ${
+                    isActive('/payment') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`}
+                >
+                  Payment History
+                </Link>
+                <Link
+                  to="/special-wastes"
+                  className={`block py-2 px-4 rounded-md ${
+                    isActive('/special-wastes') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`}
+                >
+                  Special Waste List
+                </Link>
+              </div>
+            )}
+          </div>
+
         </nav>
 
         {/* Logout */}
-        <div className="bg-gray-700 p-4">
+        <div className="bg-gray-700 p-4 mt-10">
           <Link
             to="/logout"
             className={`block py-2 px-4 rounded-md ${
