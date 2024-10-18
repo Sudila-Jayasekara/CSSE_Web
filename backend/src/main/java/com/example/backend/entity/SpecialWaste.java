@@ -25,6 +25,9 @@ public class SpecialWaste {
     @Column(nullable = false)
     private LocalDateTime dateTime;
 
+    @Column(nullable = false)
+    private String address;
+
     //reference to user
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

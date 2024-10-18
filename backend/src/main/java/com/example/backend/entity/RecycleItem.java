@@ -22,10 +22,13 @@ public class RecycleItem {
     private String wasteType;
 
     @Column(nullable = false)
-    private String totalQuantity;
+    private Double totalQuantity;
 
     @Column(nullable = false)
     private LocalDateTime dateTime;
+
+    @Column(nullable = false)
+    private String address;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

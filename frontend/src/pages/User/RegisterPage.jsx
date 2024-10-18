@@ -9,6 +9,7 @@ const RegisterPage = () => {
         password: "",
         phone: "",
         paymentType: "",
+        role: "USER", // Set the default role to USER
     });
 
     const [error, setError] = useState("");
@@ -51,31 +52,30 @@ const RegisterPage = () => {
     return (
         <div className="m-4">
             <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg border border-gray-300">
-            <h2 className="text-3xl font-semibold mb-8 text-center text-gray-800">Create Your Account</h2>
+                <h2 className="text-3xl font-semibold mb-8 text-center text-gray-800">Create Your Account</h2>
 
-            {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
+                {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-                {inputField("Name", "name", "text")}
-                {inputField("Email", "email", "email")}
-                {inputField("Password", "password", "password")}
-                {inputField("Phone Number", "phone", "text")}
-                {inputField("Payment Type", "paymentType", "text")}
-                <button
-                    type="submit"
-                    className="w-full py-3 px-6 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-300 ease-in-out"
-                >
-                    Register
-                </button>
-                
-            </form>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    {inputField("Name", "name", "text")}
+                    {inputField("Email", "email", "email")}
+                    {inputField("Password", "password", "password")}
+                    {inputField("Phone Number", "phone", "text")}
+                    {inputField("Payment Type", "paymentType", "text")}
+                    {/* Role is automatically passed as USER */}
+                    <button
+                        type="submit"
+                        className="w-full py-3 px-6 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-300 ease-in-out"
+                    >
+                        Register
+                    </button>
+                </form>
 
-            <div className="mt-4 text-center">
-                <p className="text-sm text-gray-500">Already have an account? <a href="/login" className="text-indigo-600 hover:text-indigo-800 font-semibold">Login here</a></p>
+                <div className="mt-4 text-center">
+                    <p className="text-sm text-gray-500">Already have an account? <a href="/login" className="text-indigo-600 hover:text-indigo-800 font-semibold">Login here</a></p>
+                </div>
             </div>
         </div>
-        </div>
-
     );
 };
 
