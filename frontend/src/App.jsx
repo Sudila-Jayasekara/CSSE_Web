@@ -25,6 +25,7 @@ import AddRecycleItem from './pages/WasteManagement/RecycleItems/AddRecycleItem'
 import RecycleItems from './pages/WasteManagement/RecycleItems/RecycleItems';
 
 import PaymentForm from './components/Payment/PaymentForm';
+import Profile from './pages/User/ProfilePage';
 
 import AddSpecialWaste from './pages/WasteManagement/SpecialWaste/AddSpecialWaste';
 import SpecialWastes from './pages/WasteManagement/SpecialWaste/SpecialWastes';
@@ -57,6 +58,7 @@ function App() {
         <Route path="/special-wastes" element={<Layout><SpecialWastes /></Layout>} />
 
         <Route path='/paymentform' element={<Layout><PaymentForm /></Layout>} />
+        <Route path='/profile' element={<Layout><Profile /></Layout>} />
 
         {/* 404 Page Not Found */}
         <Route path="*" element={<NotFoundPage />} />
