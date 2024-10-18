@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -27,5 +28,10 @@ public class UserService {
 
     public void deleteUserById(Long userId) {
         userRepository.deleteById(userId);  // Call on instance
+    }
+
+    public User login(String email, String password) {
+        Optional<User> user = userRepository.findByEmailAndPassword(email, password);
+        return user.orElse(null); // Return user if found, otherwise null
     }
 }

@@ -1,4 +1,5 @@
 package com.example.backend.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,12 +16,21 @@ public class SpecialWaste {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String wasteType;
+
     private String description;
+
+    @Column(nullable = false)
     private LocalDateTime dateTime;
 
     //reference to user
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "specialWaste", cascade = CascadeType.ALL)
+    private Payment payment;
 }

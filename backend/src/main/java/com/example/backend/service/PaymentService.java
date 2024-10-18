@@ -1,6 +1,8 @@
 package com.example.backend.service;
 
 import com.example.backend.entity.Payment;
+import com.example.backend.entity.RecycleItem;
+import com.example.backend.entity.SpecialWaste;
 import com.example.backend.entity.User;
 import com.example.backend.repository.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,32 @@ public class PaymentService {
 
     public Payment savePayment(Payment payment) {
         User user = payment.getUser();
+        RecycleItem recycleItem = payment.getRecycleItem();
+        SpecialWaste specialWaste = payment.getSpecialWaste();
 
-        if (user != null) {
-            payment.setType(user.getPaymentType());
+        if(recycleItem != null) {
+
+            payment.setRecycleItem(recycleItem);
+            payment.setType("reward");
+
+            if(recycleItem.getUser() != null) {
+                payment.setUser(recycleItem.getUser());
+            }
+
+        }else if(specialWaste != null) {
+
+            payment.setSpecialWaste(specialWaste);
+            payment.setType("collection");
+
+            if(specialWaste.getUser() != null) {
+                payment.setUser(specialWaste.getUser());
+            }
+        }else if (user != null) {
+            payment.setUser(user);
+            payment.setType("payment");
+            payment.setPaymentType(user.getPaymentType());
         }
+
         return paymentRepository.save(payment);  // Call on instance
     }
 
