@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import visa from '../../assets/visa.jpg'
 import master from '../../assets/master.jpg'
 import paypal from '../../assets/paypal.jpg'
+import paymentImage from '../../assets/payment.jpg'; 
 
 const PaymentForm = () => {
   const [formData, setFormData] = useState({
@@ -167,90 +168,26 @@ const PaymentForm = () => {
               className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
-        </form>
-      </div>
-
-      {/* Right Section: Billing Address */}
-      <div className="w-1/3">
-        <h3 className="text-lg font-semibold mb-4">Billing address</h3>
-
-        <form onSubmit={handleSubmit}>
-          {/* Country */}
-          <div className="mb-4">
-            <label htmlFor="country" className="block text-sm font-semibold mb-2">Country</label>
-            <select
-              id="country"
-              name="country"
-              value={formData.country}
-              onChange={handleInputChange}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            >
-              <option value="" disabled>Country</option>
-              <option value="USA">United States</option>
-              <option value="CA">Canada</option>
-              {/* Add more countries */}
-            </select>
-          </div>
-
-          {/* Address, City, State, Zip Code */}
-          <div className="mb-4">
-            <label htmlFor="address" className="block text-sm font-semibold mb-2">Address</label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              placeholder="Address"
-              value={formData.address}
-              onChange={handleInputChange}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="city" className="block text-sm font-semibold mb-2">City</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              placeholder="City"
-              value={formData.city}
-              onChange={handleInputChange}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="state" className="block text-sm font-semibold mb-2">State</label>
-            <input
-              type="text"
-              id="state"
-              name="state"
-              placeholder="State"
-              value={formData.state}
-              onChange={handleInputChange}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="zipCode" className="block text-sm font-semibold mb-2">Zip Code</label>
-            <input
-              type="text"
-              id="zipCode"
-              name="zipCode"
-              placeholder="Zip Code"
-              value={formData.zipCode}
-              onChange={handleInputChange}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          {/* Submit Button */}
-          <button type="submit" className="w-full p-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+           {/* Submit Button */}
+           <button type="submit" className="w-full p-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
             Complete Payment
           </button>
         </form>
       </div>
+
+      {/* Right Section: Billing Address */}
+      <div 
+  className="w-1/3"
+  style={{
+    backgroundImage: `url(${paymentImage})`, // Path to your image
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    borderRadius: '8px'
+  }}
+>
+  {/* Other content for the right section can go here */}
+</div>
     </div>
   );
 };
