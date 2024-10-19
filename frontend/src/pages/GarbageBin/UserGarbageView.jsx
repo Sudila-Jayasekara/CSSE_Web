@@ -63,17 +63,17 @@ const UserGarbageView = () => {
                 className="w-full h-100 object-cover"
               />
               <div className="absolute inset-0  flex flex-col justify-center text-white p-4 text-center -mt-36">
-                <p className="text-lg font-bold">Bin ID: {bin.id}</p>
+                <p className="text-lg font-bold">Collect : {bin.id}</p>
                 {isAdmin && (
                   <>
                     <p className="text-sm">User: {bin.user.name}</p>
                     <p className="text-sm">User ID: {bin.user.id}</p>
                   </>
                 )}
-                <p className="text-sm">Bin Name: {bin.name}</p>
-                <p className="text-sm">Type: {bin.garbageType}</p>
-                <p className="text-sm">Level: {bin.garbageLevel}</p>
-                <p className="text-sm">Address: {bin.address}</p>
+                <p className="text-lg font-bold">Bin : {bin.name}</p>
+                <p className="text-lg font-bold">{bin.garbageType}</p>
+                <p className="text-lg font-bold">Level: {bin.garbageLevel} %</p>
+                <p className="text-lg font-bold"> {bin.address}</p>
               </div>
             </div>
           );
