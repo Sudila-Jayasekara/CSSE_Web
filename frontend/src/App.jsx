@@ -8,7 +8,7 @@ import Layout from './components/Layout';
 
 // Data Analytics
 import AnalyicsDashboard from './pages/DataAnalytics/AnalyticsDashboard';
-
+import ReportForm from './pages/DataAnalytics/ReportForm';
 // Payment Management
 import PaymentDashboard from './pages/PaymentManagement/PaymentPage';
 
@@ -26,7 +26,7 @@ function App() {
         
         {/* Data Analytics */}
         <Route path="/data-analytics" element={<Layout><AnalyicsDashboard /></Layout>} />
-
+        <Route path="/report-form" element={<Layout><ReportForm /></Layout>} />
         {/* Payment Management */}
         <Route path="/payment-management" element={<Layout><PaymentDashboard /></Layout>} />
 
