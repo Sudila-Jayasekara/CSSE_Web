@@ -45,14 +45,7 @@ const UserGarbageView = () => {
     fetchGarbageBins();
   }, [loggedInUserId, userRole]);
 
-  // Function to determine the color of the progress bar based on garbage level
-  const getProgressBarColor = (garbageLevel) => {
-    const green = 255 - (garbageLevel * 2.55);
-    const red = garbageLevel * 2.55;
-    return `rgb(${red}, ${green}, 0)`;
-  };
-
-  const GarbageBinsGrid = ({ garbageBins }) => {
+  const GarbageBinsGrid = ({ garbageBins, isAdmin }) => {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
         {garbageBins.map((bin, index) => {
@@ -62,30 +55,25 @@ const UserGarbageView = () => {
           return (
             <div
               key={bin.id}
-              className="relative overflow-hidden"
+              className="relative   overflow-hidden"
             >
               <img
                 src={randomImage}
                 alt="Garbage Bin"
                 className="w-full h-100 object-cover"
               />
-              <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2 text-center">Bin ID: {bin.id}</h3>
-                <p className="text-gray-700">Garbage Type: {bin.garbageType}</p>
-                <div className="mt-4">
-                  <div className="relative h-6 w-full bg-gray-200 rounded-full">
-                    <div
-                      className="absolute top-0 left-0 h-full rounded-full"
-                      style={{
-                        width: `${bin.garbageLevel}%`,
-                        backgroundColor: getProgressBarColor(bin.garbageLevel),
-                      }}
-                    ></div>
-                    <span className="absolute top-0 left-0 right-0 text-center text-sm font-semibold text-black">
-                      {bin.garbageLevel === 0 ? "Empty" : bin.garbageLevel === 100 ? "Full" : `${bin.garbageLevel}%`}
-                    </span>
-                  </div>
-                </div>
+              <div className="absolute inset-0  flex flex-col justify-center text-white p-4 text-center -mt-36">
+                <p className="text-lg font-bold">Collect : {bin.id}</p>
+                {isAdmin && (
+                  <>
+                    <p className="text-sm">User: {bin.user.name}</p>
+                    <p className="text-sm">User ID: {bin.user.id}</p>
+                  </>
+                )}
+                <p className="text-lg font-bold">Bin : {bin.name}</p>
+                <p className="text-lg font-bold">{bin.garbageType}</p>
+                <p className="text-lg font-bold">Level: {bin.garbageLevel} %</p>
+                <p className="text-lg font-bold"> {bin.address}</p>
               </div>
             </div>
           );
@@ -106,7 +94,10 @@ const UserGarbageView = () => {
     <div className="m-4">
       <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold mb-6 text-center">Garbage Bin List</h2>
-        <GarbageBinsGrid garbageBins={garbageBins} />
+        <GarbageBinsGrid
+          garbageBins={garbageBins}
+          isAdmin={userRole === "ADMIN"}
+        />
       </div>
     </div>
   );
