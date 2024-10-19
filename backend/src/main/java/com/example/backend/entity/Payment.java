@@ -17,13 +17,32 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String type; //this get automatically  from user's preferred type
+    //generate automatically
+    @Column(nullable = false)
+    private String type;
+
+    //generate automatically
+    @Column(nullable = true)
+    private String paymentType; // generate automatically  from user's preferred type (flat based/ weight based)
+
+    @Column(nullable = false)
     private Double amount;
+
+    @Column(nullable = false)
     private LocalDateTime dateTime;
 
     //reference to user
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToOne
+    @JoinColumn(name = "recycle_item_id" )
+    private RecycleItem recycleItem;
+
+    @OneToOne
+    @JoinColumn(name = "special_waste_id")
+    private SpecialWaste specialWaste;
+
 
 }
