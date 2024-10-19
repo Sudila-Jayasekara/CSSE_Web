@@ -16,7 +16,7 @@ public class GarbageBin {
 
     private String name;
     private String garbageType;
-    private Integer garbageLevel;
+    private Integer garbageLevel; //% 60kg , 60%
     private String address;
 
     @ManyToOne
