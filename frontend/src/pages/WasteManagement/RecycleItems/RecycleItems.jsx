@@ -24,7 +24,7 @@ const RecycleItems = () => {
     const fetchRecycleItems = async () => {
       try {
         const itemList = await recycleItemService.getAllRecycleItems();
-
+        console.log('Recycle items:', itemList);
         if (userRole === 'ADMIN') {
           setRecycleItems(itemList);
         } else if (loggedInUserId) {

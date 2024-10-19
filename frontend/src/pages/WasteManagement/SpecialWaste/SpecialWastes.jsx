@@ -92,6 +92,7 @@ const SpecialWastes = () => {
     const fetchSpecialWastes = async () => {
       try {
         const wasteList = await specialWasteService.getAllSpecialWastes();
+        console.log('Special wastes:', wasteList);
         if (userRole === 'ADMIN') {
           setSpecialWastes(wasteList);
         } else if (loggedInUserId) {

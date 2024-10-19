@@ -53,6 +53,7 @@ function App() {
         <Route path="/wasteGeneration" element={<Layout><WasteGenerationReport /></Layout>} />
         <Route path="/CollectionReport" element={<Layout><CollectionEfficiencyReport  /></Layout>} />
         <Route path="/viewReport" element={<Layout><ViewReport /></Layout>} />
+        
         {/* Payment Management */}
         <Route path="/payment" element={<Layout><PaymentPage /></Layout>} />
         <Route path="/pending-payment" element={<Layout><PendingPayment /></Layout>} />
