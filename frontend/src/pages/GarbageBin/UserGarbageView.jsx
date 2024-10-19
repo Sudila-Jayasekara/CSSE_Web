@@ -4,8 +4,9 @@ import bin_01 from "../../assets/images/bins/bin_01.png";
 import bin_02 from "../../assets/images/bins/bin_02.png";
 import bin_03 from "../../assets/images/bins/bin_03.png";
 import ShowOneBin from "./ShowOneBin";
+import WarningModal from "../../components/Layout/WarningModal";
+// import WarningModal from "./WarningModal"; // Import the warning modal
 
-// Array of bin images for random selection
 const binImages = [bin_01, bin_02, bin_03];
 
 const UserGarbageView = () => {
@@ -15,7 +16,9 @@ const UserGarbageView = () => {
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [userRole, setUserRole] = useState(null);
   const [selectedBin, setSelectedBin] = useState(null);
-  const [randomImage, setRandomImage] = useState(""); // State for random image
+  const [randomImage, setRandomImage] = useState("");
+  const [showWarning, setShowWarning] = useState(false); // State for the warning modal
+  const [warningMessage, setWarningMessage] = useState(""); // Message for the warning modal
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -29,7 +32,6 @@ const UserGarbageView = () => {
     const fetchGarbageBins = async () => {
       try {
         const binList = await garbageBinService.getAllGarbageBins();
-
         if (userRole === "ADMIN") {
           setGarbageBins(binList);
         } else if (loggedInUserId) {
@@ -63,10 +65,16 @@ const UserGarbageView = () => {
               key={bin.id}
               className="relative overflow-hidden"
               onClick={() => {
-                const randomImage =
-                  binImages[Math.floor(Math.random() * binImages.length)];
-                setRandomImage(randomImage); // Set the random image when bin is clicked
-                setSelectedBin(bin);
+                if (bin.garbageLevel < 100) {
+                  const randomImage =
+                    binImages[Math.floor(Math.random() * binImages.length)];
+                  setRandomImage(randomImage);
+                  setSelectedBin(bin);
+                } else {
+                  // Show warning message for full bins
+                  setWarningMessage("This bin is full. Please select another bin.");
+                  setShowWarning(true);
+                }
               }}
             >
               <img
@@ -126,11 +134,19 @@ const UserGarbageView = () => {
       {selectedBin && (
         <ShowOneBin
           selectedBin={selectedBin}
-          randomImage={randomImage} // Pass the random image to ShowOneBin
+          randomImage={randomImage}
           onClose={() => {
             setSelectedBin(null);
-            setRandomImage(""); // Reset random image on close
-          }} // Clear the selection to close the modal
+            setRandomImage("");
+          }}
+        />
+      )}
+
+      {/* Warning Modal */}
+      {showWarning && (
+        <WarningModal
+          message={warningMessage}
+          onClose={() => setShowWarning(false)} // Close the modal
         />
       )}
     </div>
