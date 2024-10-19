@@ -120,7 +120,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
               className="block text-gray-300 hover:text-white py-2 px-4 rounded-md w-full text-left"
               onClick={() => toggleSection('special_waste')}
             >
-              Waste Collection
+              Waste Management
             </button>
             {toggledSections['special_waste'] && (
               <div className="pl-6 space-y-2">

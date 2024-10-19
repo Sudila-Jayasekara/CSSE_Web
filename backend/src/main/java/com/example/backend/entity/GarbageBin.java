@@ -4,19 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "waste_collections")
-public class WasteCollection {
+@Table(name = "garbage_bins")
+public class GarbageBin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String pickupLocation;
-    private Date pickupTime;
-    private String status;
 
+    private String name;
+    private String garbageType;
+    private Integer garbageLevel;
+    private String address;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }
