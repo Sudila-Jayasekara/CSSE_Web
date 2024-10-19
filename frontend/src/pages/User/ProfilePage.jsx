@@ -29,9 +29,10 @@ const Profile = () => {
 
     // Generate months starting from the current month
     generateMonthsList();
-     // Retrieve payment history from localStorage or an API
-     const savedPaymentHistory = JSON.parse(localStorage.getItem('paymentHistory')) || [];
-     setPaymentHistory(savedPaymentHistory);
+      // Retrieve payment history for the current user from localStorage or an API
+    const savedPaymentHistories = JSON.parse(localStorage.getItem('paymentHistories')) || {};
+    const userPaymentHistory = savedPaymentHistories[savedUser.email] || [];
+    setPaymentHistory(userPaymentHistory);
   }, []);
 
   // Helper function to generate months list
@@ -78,7 +79,11 @@ const Profile = () => {
   const handlePayClick = () => {
     const updatedPaymentHistory = [...paymentHistory, selectedMonth];
     setPaymentHistory(updatedPaymentHistory);
-    localStorage.setItem('paymentHistory', JSON.stringify(updatedPaymentHistory));
+
+    const savedPaymentHistories = JSON.parse(localStorage.getItem('paymentHistories')) || {};
+    savedPaymentHistories[user.email] = updatedPaymentHistory;
+    localStorage.setItem('paymentHistories', JSON.stringify(savedPaymentHistories));
+
     navigate('/paymentform', { state: { amount: 1500 } }); // Assuming your payment form is routed to /payment-form
   };
 
