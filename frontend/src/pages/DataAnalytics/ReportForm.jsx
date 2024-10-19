@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { getAllReports } from '../../services/analyticsService'; // Only import getAllReports
-import axios
- from "axios";
+import { getAllReports } from '../../services/analyticsService'; 
+import { createReport } from "../../services/analyticsService";// Only import getAllReports
+
+
 const ReportForm = () => {
   const [formData, setFormData] = useState({
     collectionDate: "",
@@ -26,7 +27,7 @@ const ReportForm = () => {
     e.preventDefault();
 
     try {
-      await axios.post("/api/reports", formData);
+      await createReport(formData); // Call the imported createReport function
       alert("Report submitted successfully!");
       setFormData({
         collectionDate: "",
