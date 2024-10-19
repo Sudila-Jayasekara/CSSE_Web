@@ -40,7 +40,7 @@ const AnalyticsDashboard = () => {
           style={buttonStyle}
           onMouseOver={(e) => e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor}
           onMouseOut={(e) => e.currentTarget.style.backgroundColor = buttonStyle.backgroundColor}
-          
+          onClick={() => handleNavigate('/highwaste')}
         >
           High Waste Areas Report
         </button>

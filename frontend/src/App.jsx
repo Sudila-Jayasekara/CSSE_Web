@@ -13,6 +13,7 @@ import Users from './pages/User/Users';
 // Data Analytics
 import AnalyicsDashboard from './pages/DataAnalytics/AnalyticsDashboard';
 import ReportForm from './pages/DataAnalytics/ReportForm';
+import HighWasteAreaReport from './pages/DataAnalytics/HighWasteAreasReport';
 // Payment Management
 import PaymentPage from './pages/PaymentManagement/PaymentPage';
 
@@ -40,6 +41,7 @@ function App() {
         {/* Data Analytics */}
         <Route path="/data-analytics" element={<Layout><AnalyicsDashboard /></Layout>} />
         <Route path="/report-form" element={<Layout><ReportForm /></Layout>} />
+        <Route path="/highwaste" element={<Layout><HighWasteAreaReport /></Layout>} />
         {/* Payment Management */}
         <Route path="/payment" element={<Layout><PaymentPage /></Layout>} />
 
