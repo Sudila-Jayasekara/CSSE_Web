@@ -2,6 +2,8 @@ package com.example.backend.controller;
 
 import com.example.backend.entity.Report;
 import com.example.backend.service.ReportService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,15 +14,19 @@ import java.util.List;
 @RequestMapping("/api/reports")
 public class ReportController {
 
+
+    private static final Logger logger = LoggerFactory.getLogger(ReportController.class);
+
     @Autowired
     private ReportService reportService;
 
     // Endpoint to create a new report
     @PostMapping
     public Report createReport(@RequestBody Report report) {
-        // Logging the received report to the console
-        System.out.println("Received report: " + report);
-        return reportService.saveReport(report);
+        logger.info("Received report for creation: {}", report);
+        Report savedReport = reportService.saveReport(report);
+        logger.info("Created report: {}", savedReport);
+        return savedReport;
     }
 
     // Endpoint to get all reports
@@ -52,14 +58,19 @@ public class ReportController {
     public List<Report> getHighWasteAreas(@RequestParam("threshold") double threshold) {
         return reportService.getHighWasteAreas(threshold);
     }
+    // Endpoint to update a report
     @PutMapping("/{id}")
     public Report updateReport(@PathVariable Long id, @RequestBody Report report) {
         report.setId(id); // Set the ID of the report to be updated
-        return reportService.saveReport(report); // This will save the updated report
+        Report updatedReport = reportService.saveReport(report); // This will save the updated report
+        logger.info("Updated report with ID {}: {}", id, updatedReport);
+        return updatedReport;
     }
 
+    // Endpoint to delete a report
     @DeleteMapping("/{id}")
     public void deleteReport(@PathVariable Long id) {
         reportService.deleteReportById(id);
+        logger.info("Deleted report with ID {}", id);
     }
 }
