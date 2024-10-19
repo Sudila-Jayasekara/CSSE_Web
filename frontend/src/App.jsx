@@ -17,7 +17,8 @@ import AnalyicsDashboard from './pages/DataAnalytics/AnalyticsDashboard';
 import PaymentPage from './pages/PaymentManagement/PaymentPage';
 
 // Garbage Bin
-import WasteCollectionPage from './pages/GarbageBin/WasteCollectionPage';
+import AddGarbageBin from './pages/GarbageBin/AddGarbageBin';
+import ListGarbageBin from './pages/GarbageBin/ListGarbageBin';
 
 // Waste Management
 import WasteManagementPage from './pages/WasteManagement/WasteManagementPage';
@@ -44,7 +45,8 @@ function App() {
         <Route path="/payment" element={<Layout><PaymentPage /></Layout>} />
 
         {/* Garbage Bin */}
-        <Route path="/waste-collection" element={<Layout><WasteCollectionPage /></Layout>} />
+        <Route path="/add-bin" element={<Layout><AddGarbageBin /></Layout>} />
+        <Route path="/list-bin" element={<Layout><ListGarbageBin /></Layout>} />
 
         {/* Waste Management */}
         <Route path="/waste-management" element={<Layout><WasteManagementPage /></Layout>} />

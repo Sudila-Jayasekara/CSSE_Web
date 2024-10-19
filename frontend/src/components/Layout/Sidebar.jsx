@@ -84,6 +84,40 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             )}
           </div>
 
+          {/* side bar garbage bin */}
+          <div>
+            <button
+              className="block text-gray-300 hover:text-white py-2 px-4 rounded-md w-full text-left"
+              onClick={() => toggleSection('garbage_bin')}
+            >
+              Garbage Bin
+            </button>
+            {toggledSections['garbage_bin'] && (
+              <div className="pl-6 space-y-2">
+                <Link
+                  to="/add-bin"
+                  className={`block py-2 px-4 rounded-md ${
+                    isActive('/add-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`}
+                >
+                  Add New Garbage Bin
+                </Link>
+                <Link
+                  to="/list-bin"
+                  className={`block py-2 px-4 rounded-md ${
+                    isActive('/list-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                  }`}
+                >
+                  Garbage Bin List
+                </Link>
+              </div>
+            )}
+          </div>
+
+
+
+
+
           {/* Toggleable Section 2 */}
           <div>
             <button
