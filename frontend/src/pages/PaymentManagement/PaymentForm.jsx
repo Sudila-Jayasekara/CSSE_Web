@@ -414,6 +414,7 @@ const CardDetails = ({ formData, handleInputChange }) => (
         value={formData.nameOnCard}
         onChange={handleInputChange}
         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+        required
       />
     </div>
 
@@ -427,6 +428,7 @@ const CardDetails = ({ formData, handleInputChange }) => (
         value={formData.cardNumber}
         onChange={handleInputChange}
         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+        required
       />
     </div>
 
@@ -444,6 +446,7 @@ const CardDetails = ({ formData, handleInputChange }) => (
           checked={formData.saveCardDetails}
           onChange={handleInputChange}
           className="form-checkbox h-5 w-5 text-green-600"
+          required
         />
         <span className="ml-2 text-sm">Save card details</span>
       </label>
@@ -461,6 +464,7 @@ const ExpiryMonthSelect = ({ formData, handleInputChange }) => (
       value={formData.expiryMonth}
       onChange={handleInputChange}
       className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+      required
     >
       <option value="" disabled>Month</option>
       <option value="01">January</option>
@@ -480,6 +484,7 @@ const ExpiryYearSelect = ({ formData, handleInputChange }) => (
       value={formData.expiryYear}
       onChange={handleInputChange}
       className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+      required
     >
       <option value="" disabled>Year</option>
       <option value="2024">2024</option>
@@ -501,6 +506,7 @@ const SecurityCodeInput = ({ formData, handleInputChange }) => (
       value={formData.securityCode}
       onChange={handleInputChange}
       className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+      required
     />
   </div>
 );
@@ -520,6 +526,7 @@ const ContactInfo = ({ formData, handleInputChange }) => (
         value={formData.email}
         onChange={handleInputChange}
         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+        required
       />
     </div>
 
@@ -533,6 +540,7 @@ const ContactInfo = ({ formData, handleInputChange }) => (
         value={formData.phone}
         onChange={handleInputChange}
         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+        required
       />
     </div>
   </>
@@ -557,7 +565,7 @@ const PaymentSuccessPopup = ({ amount, setIsPaymentSuccess, navigate }) => (
       <button
         onClick={() => {
           setIsPaymentSuccess(false);
-          navigate("/home");
+          navigate("/pending-payment");
         }}
         className="py-2 px-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700"
       >
@@ -569,9 +577,16 @@ const PaymentSuccessPopup = ({ amount, setIsPaymentSuccess, navigate }) => (
 
 // Right Side Image Section
 const PaymentImageSection = ({ image }) => (
-  <div className="w-1/3">
-    <img src={image} alt="Payment" className="w-full h-auto rounded-lg shadow-lg" />
-  </div>
+  <div 
+  className="w-1/3"
+  style={{
+    backgroundImage: `url(${paymentImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    borderRadius: '8px'
+  }}
+></div>
 );
 
 export default PaymentForm;
