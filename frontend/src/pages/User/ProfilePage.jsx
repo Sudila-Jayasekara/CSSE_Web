@@ -12,6 +12,8 @@ const Profile = () => {
 
   const [showPaymentDetails, setShowPaymentDetails] = useState(false); // State to toggle payment details
   const [months, setMonths] = useState([]); // State to store months for the dropdown
+  const [selectedMonth, setSelectedMonth] = useState(''); // Selected month for payment
+  const [paymentHistory, setPaymentHistory] = useState([]); 
   const navigate = useNavigate(); // For navigation
 
   useEffect(() => {
@@ -27,6 +29,9 @@ const Profile = () => {
 
     // Generate months starting from the current month
     generateMonthsList();
+     // Retrieve payment history from localStorage or an API
+     const savedPaymentHistory = JSON.parse(localStorage.getItem('paymentHistory')) || [];
+     setPaymentHistory(savedPaymentHistory);
   }, []);
 
   // Helper function to generate months list
@@ -64,11 +69,30 @@ const Profile = () => {
   const togglePaymentDetails = () => {
     setShowPaymentDetails(!showPaymentDetails);
   };
+  const handleMonthChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+
 
   // Navigate to payment form
   const handlePayClick = () => {
-    navigate('/paymentform'); // Assuming your payment form is routed to /payment-form
+    const updatedPaymentHistory = [...paymentHistory, selectedMonth];
+    setPaymentHistory(updatedPaymentHistory);
+    localStorage.setItem('paymentHistory', JSON.stringify(updatedPaymentHistory));
+    navigate('/paymentform', { state: { amount: 1500 } }); // Assuming your payment form is routed to /payment-form
   };
+
+   // Check if user has paid for the selected month
+   const hasPaidForMonth = paymentHistory.includes(selectedMonth);
+
+   // Calculate next payment date (for simplicity, assuming next month)
+   const nextPaymentDate = () => {
+     const monthIndex = months.indexOf(selectedMonth);
+     if (monthIndex !== -1 && monthIndex < months.length - 1) {
+       return `${months[monthIndex + 1]} 1st`;
+     }
+     return 'Next year'; // For cases when it's the last month in the list
+   };
 
   return (
     <div className="max-w-md mx-auto my-10 p-8 bg-white shadow-lg rounded-lg">
@@ -134,24 +158,39 @@ const Profile = () => {
               {/* Select payment month */}
               <div className="mb-4">
                 <label className="text-lg font-medium">Select payment month</label>
-                <select className="block w-full mt-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                <select
+                  value={selectedMonth}
+                  onChange={handleMonthChange}
+                  className="block w-full mt-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                >
+                  <option value="">Select a month</option>
                   {months.map((month, index) => (
                     <option key={index} value={month}>{month}</option>
                   ))}
                 </select>
               </div>
 
+
               <div className="mb-4">
                 <h3 className="text-lg font-semibold">Monthly payment :</h3>
                 <p className="text-gray-600">Rs 1,500</p>
               </div>
 
-              <button
-                className="px-4 py-2 mt-4 bg-green-500 text-white rounded-md w-full"
-                onClick={handlePayClick}
-              >
-                Make Payment
-              </button>
+              {/* Conditionally render either the payment button or the message */}
+              {hasPaidForMonth ? (
+                <div className="mt-4 text-center">
+                  <p className="text-green-500 font-semibold">You have paid for this month.</p>
+                  <p>Next payment date: {nextPaymentDate()}</p>
+                </div>
+              ) : (
+                <button
+                  className="px-4 py-2 mt-4 bg-green-500 text-white rounded-md w-full"
+                  onClick={handlePayClick}
+                  disabled={!selectedMonth} // Disable button if no month is selected
+                >
+                  Make Payment
+                </button>
+              )}
             </div>
           )}
         </div>
