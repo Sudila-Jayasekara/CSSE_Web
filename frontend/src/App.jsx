@@ -14,6 +14,10 @@ import Users from './pages/User/Users';
 import AnalyicsDashboard from './pages/DataAnalytics/AnalyticsDashboard';
 import ReportForm from './pages/DataAnalytics/ReportForm';
 import HighWasteAreaReport from './pages/DataAnalytics/HighWasteAreasReport';
+import WasteGenerationReport from './pages/DataAnalytics/WasteGenerationReport';
+import CollectionEfficiencyReport from './pages/DataAnalytics/CollectionEfficiencyReport';
+import ViewReport from './pages/DataAnalytics/ViewReport';
+
 // Payment Management
 import PaymentPage from './pages/PaymentManagement/PaymentPage';
 
@@ -42,6 +46,9 @@ function App() {
         <Route path="/data-analytics" element={<Layout><AnalyicsDashboard /></Layout>} />
         <Route path="/report-form" element={<Layout><ReportForm /></Layout>} />
         <Route path="/highwaste" element={<Layout><HighWasteAreaReport /></Layout>} />
+        <Route path="/wasteGeneration" element={<Layout><WasteGenerationReport /></Layout>} />
+        <Route path="/CollectionReport" element={<Layout><CollectionEfficiencyReport  /></Layout>} />
+        <Route path="/viewReport" element={<Layout><ViewReport /></Layout>} />
         {/* Payment Management */}
         <Route path="/payment" element={<Layout><PaymentPage /></Layout>} />
 

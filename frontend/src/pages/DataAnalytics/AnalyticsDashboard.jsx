@@ -53,12 +53,28 @@ const AnalyticsDashboard = () => {
         >
           Add New Report
         </button>
-
+     
         <button
           style={buttonStyle}
           onMouseOver={(e) => e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor}
           onMouseOut={(e) => e.currentTarget.style.backgroundColor = buttonStyle.backgroundColor}
-         
+          onClick={() => handleNavigate('/wasteGeneration')}
+        >
+          Waste Generation
+        </button>
+        <button
+          style={buttonStyle}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor}
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = buttonStyle.backgroundColor}
+          onClick={() => handleNavigate('/CollectionReport')}
+        >
+         Collection Efficiency Report
+        </button>
+        <button
+          style={buttonStyle}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor}
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = buttonStyle.backgroundColor}
+          onClick={() => handleNavigate('/viewReport')}
         >
           View Reports
         </button>
