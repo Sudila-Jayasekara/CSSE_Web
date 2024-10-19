@@ -8,9 +8,10 @@ import { FaPlus } from "react-icons/fa";
 // Array of bin images for random selection
 const binImages = [bin_01, bin_02, bin_03];
 
-const ShowOneBin = ({ selectedBin, onClose, isAdmin,randomImage }) => {
+const ShowOneBin = ({ selectedBin, onClose, isAdmin, randomImage }) => {
   const [trashAmount, setTrashAmount] = useState(0);
   const [garbageLevel, setGarbageLevel] = useState(selectedBin.garbageLevel);
+  const [warningMessage, setWarningMessage] = useState("");
 
   if (!selectedBin) return null;
 
@@ -31,6 +32,24 @@ const ShowOneBin = ({ selectedBin, onClose, isAdmin,randomImage }) => {
         console.log("Garbage level updated successfully!");
       })
       .catch((err) => console.error("Failed to update garbage level", err));
+      
+    // Reset warning message after successful submission
+    setWarningMessage("");
+  };
+
+  const handleTrashAmountChange = (e) => {
+    const value = parseInt(e.target.value);
+    setTrashAmount(value);
+
+    const maxAllowed = 100 - garbageLevel;
+
+    if (value > maxAllowed) {
+      setWarningMessage(`You want to use another bin, Garbage bin is overloaded!`);
+    } else if (value === maxAllowed) {
+      setWarningMessage(`Garbage Bin is full, but you can still add it.`);
+    } else {
+      setWarningMessage("");
+    }
   };
 
   return (
@@ -42,14 +61,8 @@ const ShowOneBin = ({ selectedBin, onClose, isAdmin,randomImage }) => {
             alt="Garbage Bin"
             className="w-full h-100 object-cover rounded-t-lg"
           />
-          {/* <button
-            onClick={onClose}
-            className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full focus:outline-none"
-          >
-            X
-          </button> */}
 
-          <div className="absolute inset-0 font-bold bg-opacity-50 flex flex-col justify-center items-center text-white p-4 -mt-40">
+          <div className="mt-7 absolute inset-0 font-bold bg-opacity-50 flex flex-col justify-center items-center text-white p-4 -mt-40">
             <h3 className="text-3xl font-bold mb-2">Bin ID: {selectedBin.id}</h3>
             <p className="text-xl">Garbage Type: {selectedBin.garbageType}</p>
             <p className="text-xl">Bin Name: {selectedBin.name}</p>
@@ -82,7 +95,7 @@ const ShowOneBin = ({ selectedBin, onClose, isAdmin,randomImage }) => {
               <input
                 type="number"
                 value={trashAmount}
-                onChange={(e) => setTrashAmount(e.target.value)}
+                onChange={handleTrashAmountChange} // Update to the new handler
                 className="p-2 rounded-l-lg border border-gray-300 text-black w-1/4"
                 placeholder="Add Trash (kg)"
               />
@@ -92,13 +105,18 @@ const ShowOneBin = ({ selectedBin, onClose, isAdmin,randomImage }) => {
               >
                 <FaPlus className="mr-1" />
               </button>
+              
             </div>
             <button
               onClick={onClose}
-              className=" top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-full focus:outline-none mt-6"
+              className="mt-2 justify-center items-center top-2  bg-red-500 text-white px-2 py-1 rounded-full focus:outline-none mb-10"
             >
               X
             </button>
+            {warningMessage && (
+              <p className="text-white text-center mb-15 w-1/2 ">{warningMessage}</p>
+            )}
+           
           </div>
         </div>
       </div>
