@@ -18,6 +18,7 @@ const AddRecycleItem = () => {
   // Fetch the user from localStorage when the component mounts
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
+    console.log("User: ", user);
     if (user) {
       setFormData((prevFormData) => ({
         ...prevFormData,
