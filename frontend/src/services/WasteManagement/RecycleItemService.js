@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:1010/api/recycle-item"; // Replace with your backend API URL
+const API_URL = "http://localhost:8080/api/recycle-item"; // Replace with your backend API URL
 
 export const recycleItemService = {
     getAllRecycleItems,

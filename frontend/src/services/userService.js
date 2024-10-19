@@ -1,6 +1,6 @@
 // src/services/userService.js
 
-const API_URL = "http://localhost:1010/api/user"; // Replace with your backend URL
+const API_URL = "http://localhost:8080/api/user"; // Replace with your backend URL
 
 export const userService = {
     saveUser,

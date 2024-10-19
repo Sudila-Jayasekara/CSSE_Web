@@ -162,12 +162,12 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                   Payment History
                 </Link>
                 <Link
-                  to="/special-wastes"
+                  to="/pending-payment"
                   className={`block py-2 px-4 rounded-md ${
-                    isActive('/special-wastes') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                    isActive('/pending-payment') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'
                   }`}
                 >
-                  Special Waste List
+                  Pending Payments
                 </Link>
               </div>
             )}

@@ -9,12 +9,15 @@ import LoginPage from './pages/User/LoginPage';
 import LogoutPage from './pages/User/LogoutPage';
 import RegisterPage from './pages/User/RegisterPage';
 import Users from './pages/User/Users';
+import Profile from './pages/User/ProfilePage';
 
 // Data Analytics
 import AnalyicsDashboard from './pages/DataAnalytics/AnalyticsDashboard';
 
 // Payment Management
 import PaymentPage from './pages/PaymentManagement/PaymentPage';
+import PendingPayment from './pages/PaymentManagement/PendingPayment';
+import PaymentForm from './pages/PaymentManagement/PaymentForm';
 
 // Garbage Bin
 import WasteCollectionPage from './pages/GarbageBin/WasteCollectionPage';
@@ -23,10 +26,6 @@ import WasteCollectionPage from './pages/GarbageBin/WasteCollectionPage';
 import WasteManagementPage from './pages/WasteManagement/WasteManagementPage';
 import AddRecycleItem from './pages/WasteManagement/RecycleItems/AddRecycleItem';
 import RecycleItems from './pages/WasteManagement/RecycleItems/RecycleItems';
-
-import PaymentForm from './components/Payment/PaymentForm';
-import Profile from './pages/User/ProfilePage';
-
 import AddSpecialWaste from './pages/WasteManagement/SpecialWaste/AddSpecialWaste';
 import SpecialWastes from './pages/WasteManagement/SpecialWaste/SpecialWastes';
 
@@ -39,6 +38,7 @@ function App() {
         <Route path="/logout" element={<Layout><LogoutPage /></Layout>} />
         <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
         <Route path='/users' element={<Layout><Users /></Layout>} />
+        <Route path='/profile' element={<Layout><Profile /></Layout>} />
 
         
         {/* Data Analytics */}
@@ -46,6 +46,8 @@ function App() {
 
         {/* Payment Management */}
         <Route path="/payment" element={<Layout><PaymentPage /></Layout>} />
+        <Route path="/pending-payment" element={<Layout><PendingPayment /></Layout>} />
+        <Route path='/payment-form' element={<Layout><PaymentForm /></Layout>} />
 
         {/* Garbage Bin */}
         <Route path="/waste-collection" element={<Layout><WasteCollectionPage /></Layout>} />
@@ -56,9 +58,6 @@ function App() {
         <Route path="/recycle-items" element={<Layout><RecycleItems /></Layout>} />
         <Route path="/add-special-waste" element={<Layout><AddSpecialWaste /></Layout>} />
         <Route path="/special-wastes" element={<Layout><SpecialWastes /></Layout>} />
-
-        <Route path='/paymentform' element={<Layout><PaymentForm /></Layout>} />
-        <Route path='/profile' element={<Layout><Profile /></Layout>} />
 
         {/* 404 Page Not Found */}
         <Route path="*" element={<NotFoundPage />} />
