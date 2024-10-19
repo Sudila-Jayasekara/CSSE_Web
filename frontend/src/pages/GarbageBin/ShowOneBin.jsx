@@ -12,6 +12,7 @@ const ShowOneBin = ({ selectedBin, onClose, isAdmin, randomImage }) => {
   const [trashAmount, setTrashAmount] = useState(0);
   const [garbageLevel, setGarbageLevel] = useState(selectedBin.garbageLevel);
   const [warningMessage, setWarningMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState(""); // State for success message
 
   if (!selectedBin) return null;
 
@@ -41,6 +42,10 @@ const ShowOneBin = ({ selectedBin, onClose, isAdmin, randomImage }) => {
       .then(() => {
         console.log("Garbage level updated successfully!");
         setWarningMessage(""); // Reset warning message after successful submission
+        setSuccessMessage("Update done!"); // Show success message
+        setTimeout(() => {
+          setSuccessMessage(""); // Hide success message after a few seconds
+        }, 3000); // Change duration as needed
       })
       .catch((err) => console.error("Failed to update garbage level", err));
   };
@@ -122,6 +127,9 @@ const ShowOneBin = ({ selectedBin, onClose, isAdmin, randomImage }) => {
             </button>
             {warningMessage && (
               <p className="text-white text-center mb-15 w-1/2">{warningMessage}</p>
+            )}
+            {successMessage && (
+              <p className="text-green-500 text-center mb-15 w-1/2">{successMessage}</p>
             )}
           </div>
         </div>
