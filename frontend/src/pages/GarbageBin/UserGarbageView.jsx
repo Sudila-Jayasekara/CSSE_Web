@@ -14,8 +14,8 @@ const UserGarbageView = () => {
   const [error, setError] = useState("");
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [userRole, setUserRole] = useState(null);
-
   const [selectedBin, setSelectedBin] = useState(null);
+  const [randomImage, setRandomImage] = useState(""); // State for random image
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -48,7 +48,6 @@ const UserGarbageView = () => {
     fetchGarbageBins();
   }, [loggedInUserId, userRole]);
 
-  // Function to determine the color of the progress bar based on garbage level
   const getProgressBarColor = (garbageLevel) => {
     const green = 255 - garbageLevel * 2.55;
     const red = garbageLevel * 2.55;
@@ -58,18 +57,20 @@ const UserGarbageView = () => {
   const GarbageBinsGrid = ({ garbageBins }) => {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-        {garbageBins.map((bin, index) => {
-          const randomImage =
-            binImages[Math.floor(Math.random() * binImages.length)];
-
+        {garbageBins.map((bin) => {
           return (
             <div
               key={bin.id}
               className="relative overflow-hidden"
-              onClick={() => setSelectedBin(bin)}
+              onClick={() => {
+                const randomImage =
+                  binImages[Math.floor(Math.random() * binImages.length)];
+                setRandomImage(randomImage); // Set the random image when bin is clicked
+                setSelectedBin(bin);
+              }}
             >
               <img
-                src={randomImage}
+                src={binImages[Math.floor(Math.random() * binImages.length)]}
                 alt="Garbage Bin"
                 className="w-full h-100 object-cover"
               />
@@ -125,11 +126,13 @@ const UserGarbageView = () => {
       {selectedBin && (
         <ShowOneBin
           selectedBin={selectedBin}
-          onClose={() => setSelectedBin(null)} // Clear the selection to close the modal
+          randomImage={randomImage} // Pass the random image to ShowOneBin
+          onClose={() => {
+            setSelectedBin(null);
+            setRandomImage(""); // Reset random image on close
+          }} // Clear the selection to close the modal
         />
       )}
-
-
     </div>
   );
 };

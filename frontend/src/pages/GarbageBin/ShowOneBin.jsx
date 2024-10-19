@@ -8,13 +8,11 @@ import { FaPlus } from "react-icons/fa";
 // Array of bin images for random selection
 const binImages = [bin_01, bin_02, bin_03];
 
-const ShowOneBin = ({ selectedBin, onClose, isAdmin }) => {
+const ShowOneBin = ({ selectedBin, onClose, isAdmin,randomImage }) => {
   const [trashAmount, setTrashAmount] = useState(0);
   const [garbageLevel, setGarbageLevel] = useState(selectedBin.garbageLevel);
 
   if (!selectedBin) return null;
-
-  const randomImage = binImages[Math.floor(Math.random() * binImages.length)];
 
   const getProgressBarColor = (garbageLevel) => {
     const green = 255 - garbageLevel * 2.55;
