@@ -22,7 +22,17 @@ const ShowOneBin = ({ selectedBin, onClose, isAdmin, randomImage }) => {
   };
 
   const handleAddTrash = () => {
-    const newGarbageLevel = Math.min(garbageLevel + parseInt(trashAmount), 100);
+    const maxAllowed = 100 - garbageLevel;
+    const addedTrash = parseInt(trashAmount);
+
+    // Check if the entered amount exceeds the allowed limit
+    if (addedTrash > maxAllowed) {
+      setWarningMessage("You want to use another bin, Garbage bin is overloaded!");
+      return; // Exit if overloaded
+    } 
+
+    // Proceed to update if the input is valid
+    const newGarbageLevel = Math.min(garbageLevel + addedTrash, 100);
     setGarbageLevel(newGarbageLevel);
 
     const updatedBin = { ...selectedBin, garbageLevel: newGarbageLevel };
@@ -30,23 +40,21 @@ const ShowOneBin = ({ selectedBin, onClose, isAdmin, randomImage }) => {
       .updateGarbageBin(selectedBin.id, updatedBin)
       .then(() => {
         console.log("Garbage level updated successfully!");
+        setWarningMessage(""); // Reset warning message after successful submission
       })
       .catch((err) => console.error("Failed to update garbage level", err));
-      
-    // Reset warning message after successful submission
-    setWarningMessage("");
   };
 
   const handleTrashAmountChange = (e) => {
     const value = parseInt(e.target.value);
-    setTrashAmount(value);
+    setTrashAmount(value || 0); // Handle NaN case
 
     const maxAllowed = 100 - garbageLevel;
 
     if (value > maxAllowed) {
-      setWarningMessage(`You want to use another bin, Garbage bin is overloaded!`);
+      setWarningMessage("You want to use another bin, Garbage bin is overloaded!");
     } else if (value === maxAllowed) {
-      setWarningMessage(`Garbage Bin is full, but you can still add it.`);
+      setWarningMessage("Garbage Bin is full, but you can still add it.");
     } else {
       setWarningMessage("");
     }
@@ -95,7 +103,7 @@ const ShowOneBin = ({ selectedBin, onClose, isAdmin, randomImage }) => {
               <input
                 type="number"
                 value={trashAmount}
-                onChange={handleTrashAmountChange} // Update to the new handler
+                onChange={handleTrashAmountChange}
                 className="p-2 rounded-l-lg border border-gray-300 text-black w-1/4"
                 placeholder="Add Trash (kg)"
               />
@@ -105,18 +113,16 @@ const ShowOneBin = ({ selectedBin, onClose, isAdmin, randomImage }) => {
               >
                 <FaPlus className="mr-1" />
               </button>
-              
             </div>
             <button
               onClick={onClose}
-              className="mt-2 justify-center items-center top-2  bg-red-500 text-white px-2 py-1 rounded-full focus:outline-none mb-10"
+              className="mt-2 justify-center items-center top-2 bg-red-500 text-white px-2 py-1 rounded-full focus:outline-none mb-10"
             >
               X
             </button>
             {warningMessage && (
-              <p className="text-white text-center mb-15 w-1/2 ">{warningMessage}</p>
+              <p className="text-white text-center mb-15 w-1/2">{warningMessage}</p>
             )}
-           
           </div>
         </div>
       </div>
