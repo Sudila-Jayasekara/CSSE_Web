@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Assuming you are using react-router for navigation
 
 const Profile = () => {
   const [user, setUser] = useState({
     name: '',
     email: '',
     paymentType: '',
-    contactNumber: '',
+    phone: '',
     profilePicture: '',
   });
+
+  const [showPaymentDetails, setShowPaymentDetails] = useState(false); // State to toggle payment details
+  const [months, setMonths] = useState([]); // State to store months for the dropdown
+  const navigate = useNavigate(); // For navigation
 
   useEffect(() => {
     // Fetch user details from local storage when the component is mounted
@@ -15,11 +20,27 @@ const Profile = () => {
       name: 'John Doe',
       email: 'john@example.com',
       paymentType: 'Flat Payment',
-      contactNumber: '123-456-7890',
+      phone: '123-456-7890',
       profilePicture: '',
     };
     setUser(savedUser);
+
+    // Generate months starting from the current month
+    generateMonthsList();
   }, []);
+
+  // Helper function to generate months list
+  const generateMonthsList = () => {
+    const currentMonth = new Date().getMonth(); // Get current month (0-11, where 0 is January)
+    const monthsList = [
+      'January', 'February', 'March', 'April', 'May', 'June', 
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+
+    // Filter out past months, show only the current month and future months
+    const availableMonths = monthsList.slice(currentMonth);
+    setMonths(availableMonths);
+  };
 
   // Handle profile picture change
   const handleProfilePictureChange = (event) => {
@@ -37,6 +58,16 @@ const Profile = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  // Toggle payment details visibility
+  const togglePaymentDetails = () => {
+    setShowPaymentDetails(!showPaymentDetails);
+  };
+
+  // Navigate to payment form
+  const handlePayClick = () => {
+    navigate('/paymentform'); // Assuming your payment form is routed to /payment-form
   };
 
   return (
@@ -86,7 +117,45 @@ const Profile = () => {
         <p className="text-gray-600">{user.paymentType}</p>
       </div>
 
-      
+      {/* Payment Details (for Flat Payment only) */}
+      {user.paymentType === 'flat' && (
+        <div className="mb-4">
+          <button
+            className="px-4 py-2 bg-blue-500 text-white rounded-md"
+            onClick={togglePaymentDetails}
+          >
+            {showPaymentDetails ? 'Hide Payment Details' : 'View Payment Details'}
+          </button>
+
+          {showPaymentDetails && (
+            <div className="mt-4 bg-gray-100 p-6 rounded-md">
+              <h2 className="text-2xl font-bold mb-4 text-center">Flat Payment</h2>
+
+              {/* Select payment month */}
+              <div className="mb-4">
+                <label className="text-lg font-medium">Select payment month</label>
+                <select className="block w-full mt-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                  {months.map((month, index) => (
+                    <option key={index} value={month}>{month}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold">Monthly payment :</h3>
+                <p className="text-gray-600">Rs 1,500</p>
+              </div>
+
+              <button
+                className="px-4 py-2 mt-4 bg-green-500 text-white rounded-md w-full"
+                onClick={handlePayClick}
+              >
+                Make Payment
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
