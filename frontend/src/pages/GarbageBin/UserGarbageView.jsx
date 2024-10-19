@@ -3,6 +3,7 @@ import { garbageBinService } from "../../services/GarbageBinManagement/GarbageBi
 import bin_01 from "../../assets/images/bins/bin_01.png";
 import bin_02 from "../../assets/images/bins/bin_02.png";
 import bin_03 from "../../assets/images/bins/bin_03.png";
+import ShowOneBin from "./ShowOneBin";
 
 // Array of bin images for random selection
 const binImages = [bin_01, bin_02, bin_03];
@@ -13,6 +14,8 @@ const UserGarbageView = () => {
   const [error, setError] = useState("");
   const [loggedInUserId, setLoggedInUserId] = useState(null);
   const [userRole, setUserRole] = useState(null);
+
+  const [selectedBin, setSelectedBin] = useState(null);
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -47,7 +50,7 @@ const UserGarbageView = () => {
 
   // Function to determine the color of the progress bar based on garbage level
   const getProgressBarColor = (garbageLevel) => {
-    const green = 255 - (garbageLevel * 2.55);
+    const green = 255 - garbageLevel * 2.55;
     const red = garbageLevel * 2.55;
     return `rgb(${red}, ${green}, 0)`;
   };
@@ -63,6 +66,7 @@ const UserGarbageView = () => {
             <div
               key={bin.id}
               className="relative overflow-hidden"
+              onClick={() => setSelectedBin(bin)}
             >
               <img
                 src={randomImage}
@@ -70,7 +74,9 @@ const UserGarbageView = () => {
                 className="w-full h-100 object-cover"
               />
               <div className="p-4">
-                <h3 className="text-lg font-semibold mb-2 text-center">Bin ID: {bin.id}</h3>
+                <h3 className="text-lg font-semibold mb-2 text-center">
+                  Bin ID: {bin.id}
+                </h3>
                 <p className="text-gray-700">Garbage Type: {bin.garbageType}</p>
                 <div className="mt-4">
                   <div className="relative h-6 w-full bg-gray-200 rounded-full">
@@ -82,7 +88,11 @@ const UserGarbageView = () => {
                       }}
                     ></div>
                     <span className="absolute top-0 left-0 right-0 text-center text-sm font-semibold text-black">
-                      {bin.garbageLevel === 0 ? "Empty" : bin.garbageLevel === 100 ? "Full" : `${bin.garbageLevel}%`}
+                      {bin.garbageLevel === 0
+                        ? "Empty"
+                        : bin.garbageLevel === 100
+                        ? "Full"
+                        : `${bin.garbageLevel}%`}
                     </span>
                   </div>
                 </div>
@@ -105,9 +115,21 @@ const UserGarbageView = () => {
   return (
     <div className="m-4">
       <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold mb-6 text-center">Garbage Bin List</h2>
+        <h2 className="text-2xl font-semibold mb-6 text-center">
+          Garbage Bin List
+        </h2>
         <GarbageBinsGrid garbageBins={garbageBins} />
       </div>
+
+      {/* Show the selected bin details */}
+      {selectedBin && (
+        <ShowOneBin
+          selectedBin={selectedBin}
+          onClose={() => setSelectedBin(null)} // Clear the selection to close the modal
+        />
+      )}
+
+
     </div>
   );
 };
