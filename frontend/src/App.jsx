@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // import pages
@@ -13,6 +13,11 @@ import Profile from './pages/User/ProfilePage';
 
 // Data Analytics
 import AnalyicsDashboard from './pages/DataAnalytics/AnalyticsDashboard';
+import ReportForm from './pages/DataAnalytics/ReportForm';
+import HighWasteAreaReport from './pages/DataAnalytics/HighWasteAreasReport';
+import WasteGenerationReport from './pages/DataAnalytics/WasteGenerationReport';
+import CollectionEfficiencyReport from './pages/DataAnalytics/CollectionEfficiencyReport';
+import ViewReport from './pages/DataAnalytics/ViewReport';
 
 // Payment Management
 import PaymentPage from './pages/PaymentManagement/PaymentPage';
@@ -43,7 +48,11 @@ function App() {
         
         {/* Data Analytics */}
         <Route path="/data-analytics" element={<Layout><AnalyicsDashboard /></Layout>} />
-
+        <Route path="/report-form" element={<Layout><ReportForm /></Layout>} />
+        <Route path="/highwaste" element={<Layout><HighWasteAreaReport /></Layout>} />
+        <Route path="/wasteGeneration" element={<Layout><WasteGenerationReport /></Layout>} />
+        <Route path="/CollectionReport" element={<Layout><CollectionEfficiencyReport  /></Layout>} />
+        <Route path="/viewReport" element={<Layout><ViewReport /></Layout>} />
         {/* Payment Management */}
         <Route path="/payment" element={<Layout><PaymentPage /></Layout>} />
         <Route path="/pending-payment" element={<Layout><PendingPayment /></Layout>} />
