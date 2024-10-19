@@ -58,6 +58,7 @@ const RecycleItems = () => {
               <th className="px-4 py-3 text-left">Total Quantity</th>
               <th className="px-4 py-3 text-left">Date</th>
               <th className="px-4 py-3 text-left">Time</th>
+              {/* <th className="px-4 py-3 text-left">Reward</th> */}
               <th className="px-4 py-3 text-left">Actions</th>
             </tr>
           </thead>
@@ -75,6 +76,7 @@ const RecycleItems = () => {
                 <td className="py-3 px-4 text-gray-700">{item.totalQuantity}</td>
                 <td className="py-3 px-4 text-gray-700">{new Date(item.dateTime).toLocaleDateString()}</td>
                 <td className="py-3 px-4 text-gray-700">{new Date(item.dateTime).toLocaleTimeString()}</td>
+                {/* <td className="py-3 px-4 text-gray-700">{item.amount}</td> */}
                 <td className="py-3 px-4">
                   <button
                     onClick={() => handlePaymentClick(item)}
