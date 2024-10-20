@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // import pages
@@ -9,12 +9,20 @@ import LoginPage from './pages/User/LoginPage';
 import LogoutPage from './pages/User/LogoutPage';
 import RegisterPage from './pages/User/RegisterPage';
 import Users from './pages/User/Users';
+import Profile from './pages/User/ProfilePage';
 
 // Data Analytics
 import AnalyicsDashboard from './pages/DataAnalytics/AnalyticsDashboard';
+import ReportForm from './pages/DataAnalytics/ReportForm';
+import HighWasteAreaReport from './pages/DataAnalytics/HighWasteAreasReport';
+import WasteGenerationReport from './pages/DataAnalytics/WasteGenerationReport';
+import CollectionEfficiencyReport from './pages/DataAnalytics/CollectionEfficiencyReport';
+import ViewReport from './pages/DataAnalytics/ViewReport';
 
 // Payment Management
 import PaymentPage from './pages/PaymentManagement/PaymentPage';
+import PendingPayment from './pages/PaymentManagement/PendingPayment';
+import PaymentForm from './pages/PaymentManagement/PaymentForm';
 
 // Garbage Bin
 import AddGarbageBin from './pages/GarbageBin/AddGarbageBin';
@@ -38,13 +46,21 @@ function App() {
         <Route path="/logout" element={<Layout><LogoutPage /></Layout>} />
         <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
         <Route path='/users' element={<Layout><Users /></Layout>} />
+        <Route path='/profile' element={<Layout><Profile /></Layout>} />
 
         
         {/* Data Analytics */}
         <Route path="/data-analytics" element={<Layout><AnalyicsDashboard /></Layout>} />
-
+        <Route path="/report-form" element={<Layout><ReportForm /></Layout>} />
+        <Route path="/highwaste" element={<Layout><HighWasteAreaReport /></Layout>} />
+        <Route path="/wasteGeneration" element={<Layout><WasteGenerationReport /></Layout>} />
+        <Route path="/CollectionReport" element={<Layout><CollectionEfficiencyReport  /></Layout>} />
+        <Route path="/viewReport" element={<Layout><ViewReport /></Layout>} />
+        
         {/* Payment Management */}
         <Route path="/payment" element={<Layout><PaymentPage /></Layout>} />
+        <Route path="/pending-payment" element={<Layout><PendingPayment /></Layout>} />
+        <Route path='/payment-form' element={<Layout><PaymentForm /></Layout>} />
 
         {/* Garbage Bin */}
         <Route path="/add-bin" element={<Layout><AddGarbageBin /></Layout>} />

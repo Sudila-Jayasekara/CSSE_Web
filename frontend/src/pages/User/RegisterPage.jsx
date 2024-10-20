@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { userService } from "../../services/userService";
+import { userService } from "../../services/userService"; // Ensure this path is correct
 import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
@@ -8,12 +8,12 @@ const RegisterPage = () => {
         email: "",
         password: "",
         phone: "",
-        paymentType: "",
+        paymentType: "", // Added paymentType
         role: "USER", // Set the default role to USER
     });
 
     const [error, setError] = useState("");
-    const navigate = useNavigate(); // Use useNavigate instead of useHistory
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,6 +28,7 @@ const RegisterPage = () => {
                 navigate("/login"); // Use navigate to redirect to login page
             }
         } catch (error) {
+            console.error("Registration error: ", error); // Log error for debugging
             setError("Error registering user. Please try again.");
         }
     };
@@ -49,6 +50,29 @@ const RegisterPage = () => {
         </div>
     );
 
+    const dropdownField = (label, name, options) => (
+        <div>
+            <label htmlFor={name} className="block text-sm font-medium text-gray-700">
+                {label}
+            </label>
+            <select
+                id={name}
+                name={name}
+                value={formData[name]}
+                onChange={handleChange}
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+            >
+                <option value="">Select Payment Type</option>
+                {options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                        {option.label}
+                    </option>
+                ))}
+            </select>
+        </div>
+    );
+
     return (
         <div className="m-4">
             <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg border border-gray-300">
@@ -61,8 +85,10 @@ const RegisterPage = () => {
                     {inputField("Email", "email", "email")}
                     {inputField("Password", "password", "password")}
                     {inputField("Phone Number", "phone", "text")}
-                    {inputField("Payment Type", "paymentType", "text")}
-                    {/* Role is automatically passed as USER */}
+                    {dropdownField("Payment Type", "paymentType", [
+                        { label: "Flat", value: "flat" },
+                        { label: "Weight-Based", value: "weight_based" },
+                    ])}
                     <button
                         type="submit"
                         className="w-full py-3 px-6 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-300 ease-in-out"
@@ -72,7 +98,12 @@ const RegisterPage = () => {
                 </form>
 
                 <div className="mt-4 text-center">
-                    <p className="text-sm text-gray-500">Already have an account? <a href="/login" className="text-indigo-600 hover:text-indigo-800 font-semibold">Login here</a></p>
+                    <p className="text-sm text-gray-500">
+                        Already have an account?{" "}
+                        <a href="/login" className="text-indigo-600 hover:text-indigo-800 font-semibold">
+                            Login here
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>

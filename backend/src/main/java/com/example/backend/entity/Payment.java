@@ -17,6 +17,8 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private LocalDateTime nextPaymentDate; // Only used for Flat payment type
+
     //generate automatically
     @Column(nullable = false)
     private String type;
