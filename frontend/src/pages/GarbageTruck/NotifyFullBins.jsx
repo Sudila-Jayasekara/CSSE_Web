@@ -21,6 +21,18 @@ const NotifyFullBins = () => {
         fetchFullGarbageBins();
     }, []);
 
+    const handleToggleCollect = async (binId) => {
+        try {
+            const updatedBin = await garbageBinTruckService.toggleCollectBin(binId);
+            setFullBins((prevBins) =>
+                prevBins.map((bin) => (bin.id === updatedBin.id ? updatedBin : bin))
+            );
+        } catch (error) {
+            console.error('Error updating collect status:', error);
+            setError('Failed to update collect status');
+        }
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -44,7 +56,7 @@ const NotifyFullBins = () => {
                                     <th className="px-4 py-3 text-left">Address</th>
                                     <th className="px-4 py-3 text-left">Garbage Level</th>
                                     <th className="px-4 py-3 text-left">Notification Time</th>
-                                    <th className="px-4 py-3 text-left">Collected</th>
+                                    <th className="px-4 py-3 text-left">Collect</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,7 +68,16 @@ const NotifyFullBins = () => {
                                         <td className="py-3 px-4 text-gray-700">{bin.address}</td>
                                         <td className="py-3 px-4 text-gray-700">{bin.garbageLevel}%</td>
                                         <td className="py-3 px-4 text-gray-700">{new Date(bin.notificationTime).toLocaleString()}</td>
-                                        <td className="py-3 px-4 text-gray-700">{bin.isCollected ? "Yes" : "No"}</td>
+                                        <td className="py-3 px-4">
+                                            <button
+                                                onClick={() => handleToggleCollect(bin.id)}
+                                                className={`px-4 py-2 rounded ${
+                                                    bin.isCollected ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+                                                }`}
+                                            >
+                                                {bin.isCollected ? 'Collected' : 'Collect'}
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>

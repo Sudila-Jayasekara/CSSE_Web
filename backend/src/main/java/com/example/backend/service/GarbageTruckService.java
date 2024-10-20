@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GarbageTruckService {
@@ -21,13 +22,6 @@ public class GarbageTruckService {
     @Autowired
     private GarbageBinRepository garbageBinRepository; // Inject the GarbageBinRepository
 
-    public GarbageTruck assignDriver(String driverName) {
-        GarbageTruck truck = new GarbageTruck();
-        truck.setDriverName(driverName);
-        truck.setNotificationTime(LocalDateTime.now());
-        truck.setCollected(false);
-        return garbageTruckRepository.save(truck);
-    }
     public List<GarbageTruck> getAllNotifications() {
         return garbageTruckRepository.findAll();
     }
@@ -55,4 +49,28 @@ public class GarbageTruckService {
 
         return fullBins; // Return the list of full bins
     }
+
+    public GarbageTruck createGarbageTruck(GarbageTruck truck) {
+        truck.setNotificationTime(LocalDateTime.now());
+        truck.setCollected(false);
+        return garbageTruckRepository.save(truck);
+    }
+
+    public GarbageTruck updateGarbageTruck(Long id, GarbageTruck truck) {
+        Optional<GarbageTruck> existingTruckOptional = garbageTruckRepository.findById(id);
+        if (existingTruckOptional.isPresent()) {
+            GarbageTruck existingTruck = existingTruckOptional.get();
+            existingTruck.setNotificationTime(LocalDateTime.now());
+            existingTruck.setCollected(truck.isCollected());
+            return garbageTruckRepository.save(existingTruck);
+        } else {
+            throw new RuntimeException("Garbage Truck not found with id " + id);
+        }
+    }
+
+    public GarbageTruck getGarbageTruckById(Long id) {
+        return garbageTruckRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Garbage Truck not found with id " + id));
+    }
+
 }

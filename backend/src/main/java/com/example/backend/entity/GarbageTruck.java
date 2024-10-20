@@ -19,9 +19,6 @@ public class GarbageTruck  {
     private Long id;
 
     @Column(nullable = false)
-    private String driverName;
-
-    @Column(nullable = false)
     private LocalDateTime notificationTime;
 
     @Column(nullable = false)

@@ -18,11 +18,6 @@ public class GarbageTruckController {
     @Autowired
     private GarbageTruckService garbageTruckService;
 
-    @PostMapping("/assign")
-    public ResponseEntity<GarbageTruck> assignDriver(@RequestParam String driverName) {
-        GarbageTruck truck = garbageTruckService.assignDriver(driverName);
-        return ResponseEntity.ok(truck);
-    }
 
     @PostMapping("/notify")
     public ResponseEntity<Void> notifyGarbageTruck(@RequestBody GarbageBin bin) {
@@ -30,6 +25,25 @@ public class GarbageTruckController {
         garbageTruckService.notifyGarbageTruck(bin.getGarbageTruck(), bin);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/create")
+    public ResponseEntity<GarbageTruck> createGarbageTruck(@RequestBody GarbageTruck truck) {
+        GarbageTruck createdTruck = garbageTruckService.createGarbageTruck(truck);
+        return ResponseEntity.ok(createdTruck);
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<GarbageTruck> updateGarbageTruck(@PathVariable Long id, @RequestBody GarbageTruck truck) {
+        GarbageTruck updatedTruck = garbageTruckService.updateGarbageTruck(id, truck);
+        return ResponseEntity.ok(updatedTruck);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GarbageTruck> getGarbageTruckById(@PathVariable Long id) {
+        GarbageTruck truck = garbageTruckService.getGarbageTruckById(id);
+        return ResponseEntity.ok(truck);
+    }
+
 
     @GetMapping("/notifications")
     public List<GarbageTruck> getAllNotifications() {
@@ -41,4 +55,6 @@ public class GarbageTruckController {
         List<GarbageBin> fullBins = garbageTruckService.checkForFullBins();
         return ResponseEntity.ok(fullBins);
     }
+
+
 }
