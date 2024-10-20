@@ -20,6 +20,7 @@ import PaymentPage from './pages/PaymentManagement/PaymentPage';
 import AddGarbageBin from './pages/GarbageBin/AddGarbageBin';
 import ListGarbageBin from './pages/GarbageBin/ListGarbageBin';
 import UserListGarbageBin from './pages/GarbageBin/UserGarbageView';
+import NotifyFullBins from './pages/GarbageTruck/NotifyFullBins';
 
 // Waste Management
 import WasteManagementPage from './pages/WasteManagement/WasteManagementPage';
@@ -49,6 +50,8 @@ function App() {
         <Route path="/add-bin" element={<Layout><AddGarbageBin /></Layout>} />
         <Route path="/list-bin" element={<Layout><ListGarbageBin /></Layout>} />
         <Route path="/user-list-bin" element={<Layout><UserListGarbageBin /></Layout>} />
+
+        <Route path="/truck-full-bin" element={<Layout><NotifyFullBins/></Layout>} />
 
         {/* Waste Management */}
         <Route path="/waste-management" element={<Layout><WasteManagementPage /></Layout>} />
