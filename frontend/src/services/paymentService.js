@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/api/payment"; 
+const API_URL = "http://localhost:1010/api/payment"; 
 
 export const paymentService = {
     getAllPayments,
