@@ -241,7 +241,7 @@ const WasteTable = ({ recycleItems, handleDelete, handlePaymentClick, userRole }
           <th className="py-3 px-4 text-left">Quantity</th>
           <th className="py-3 px-4 text-left">Date</th>
           <th className="py-3 px-4 text-left">Time</th>
-          <th className="py-3 px-4 text-left">Cost</th>
+          <th className="py-3 px-4 text-left">Reward</th>
           <th className="py-3 px-4 text-left">Actions</th>
         </tr>
       </thead>

@@ -25,7 +25,9 @@ import PendingPayment from './pages/PaymentManagement/PendingPayment';
 import PaymentForm from './pages/PaymentManagement/PaymentForm';
 
 // Garbage Bin
-import WasteCollectionPage from './pages/GarbageBin/WasteCollectionPage';
+import AddGarbageBin from './pages/GarbageBin/AddGarbageBin';
+import ListGarbageBin from './pages/GarbageBin/ListGarbageBin';
+import UserListGarbageBin from './pages/GarbageBin/UserGarbageView';
 
 // Waste Management
 import WasteManagementPage from './pages/WasteManagement/WasteManagementPage';
@@ -60,7 +62,9 @@ function App() {
         <Route path='/payment-form' element={<Layout><PaymentForm /></Layout>} />
 
         {/* Garbage Bin */}
-        <Route path="/waste-collection" element={<Layout><WasteCollectionPage /></Layout>} />
+        <Route path="/add-bin" element={<Layout><AddGarbageBin /></Layout>} />
+        <Route path="/list-bin" element={<Layout><ListGarbageBin /></Layout>} />
+        <Route path="/user-list-bin" element={<Layout><UserListGarbageBin /></Layout>} />
 
         {/* Waste Management */}
         <Route path="/waste-management" element={<Layout><WasteManagementPage /></Layout>} />

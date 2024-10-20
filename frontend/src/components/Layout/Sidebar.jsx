@@ -30,83 +30,20 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <aside className={`bg-gray-800 text-white w-64 ${collapsed ? 'hidden' : 'block'} md:block transition-all ease-in-out duration-300`}>
+    <aside className={`bg-gray-800 m-2 rounded-2xl text-white w-64 ${collapsed ? 'hidden' : 'block'} md:block transition-all ease-in-out duration-300`}>
       <div className="h-full flex flex-col">
         <button className="md:hidden p-4 text-white bg-gray-700 hover:bg-gray-600" onClick={() => setCollapsed(!collapsed)}>
           {collapsed ? 'Show Menu' : 'Hide Menu'}
         </button>
 
         {user && (
-          <div className="text-center text-white text-2xl py-2">
+          <div className="text-center text-white text-2xl py-2 mb-10 mt-5">
             <span>Welcome, {user.name}!</span>
           </div>
         )}
 
-        <nav className="flex-1 space-y-4 px-4">
-          {/* Reports Section */}
-          <div>
-            <button
-              className="block text-gray-300 hover:text-white py-2 px-4 rounded-md w-full text-left"
-              onClick={() => toggleSection('reports')}
-            >
-              Reports
-            </button>
-            {toggledSections['reports'] && (
-              <div className="pl-6 space-y-2">
-                <Link
-                  to="/viewReport"
-                  className={`block py-2 px-4 rounded-md ${isActive('/viewReport') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                >
-                  View Reports
-                </Link>
-                <Link
-                  to="/report-form"
-                  className={`block py-2 px-4 rounded-md ${isActive('/report-form') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                >
-                  Add New Report
-                </Link>
-              </div>
-            )}
-          </div>
-
-          {/* Analytics Section */}
-          <div>
-            <button
-              className="block text-gray-300 hover:text-white py-2 px-4 rounded-md w-full text-left"
-              onClick={() => toggleSection('analytics')}
-            >
-              Analytics
-            </button>
-            {toggledSections['analytics'] && (
-              <div className="pl-6 space-y-2">
-                <Link
-                  to="/data-analytics"
-                  className={`block py-2 px-4 rounded-md ${isActive('/data-analytics') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                >
-                  Data Analytics Overview
-                </Link>
-                <Link
-                  to="/highwaste"
-                  className={`block py-2 px-4 rounded-md ${isActive('/highwaste') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                >
-                  High Waste Areas Report
-                </Link>
-                <Link
-                  to="/wasteGeneration"
-                  className={`block py-2 px-4 rounded-md ${isActive('/wasteGeneration') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                >
-                  Waste Generation
-                </Link>
-                <Link
-                  to="/CollectionReport"
-                  className={`block py-2 px-4 rounded-md ${isActive('/CollectionReport') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                >
-                  Collection Efficiency Report
-                </Link>
-              </div>
-            )}
-          </div>
-
+        <nav className="flex-1 space-y-6 px-4">
+          
           {/* Other Sections */}
           <div>
             <button
@@ -134,6 +71,24 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                   className={`block py-2 px-4 rounded-md ${isActive('/users') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                 >
                   View Users
+                </Link>
+                <Link
+                  to="/add-bin"
+                  className={`block py-2 px-4 rounded-md ${isActive('/add-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                >
+                  add-bin
+                </Link>
+                <Link
+                  to="/list-bin"
+                  className={`block py-2 px-4 rounded-md ${isActive('/list-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                >
+                  list-bin
+                </Link>
+                <Link
+                  to="/user-list-bin"
+                  className={`block py-2 px-4 rounded-md ${isActive('/user-list-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                >
+                  user-list-bin
                 </Link>
               </div>
             )}
@@ -214,6 +169,70 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
               </div>
             )}
           </div>
+          {/* Reports Section */}
+          <div>
+            <button
+              className="block text-gray-300 hover:text-white py-2 px-4 rounded-md w-full text-left"
+              onClick={() => toggleSection('reports')}
+            >
+              Reports
+            </button>
+            {toggledSections['reports'] && (
+              <div className="pl-6 space-y-2">
+                <Link
+                  to="/viewReport"
+                  className={`block py-2 px-4 rounded-md ${isActive('/viewReport') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                >
+                  View Reports
+                </Link>
+                <Link
+                  to="/report-form"
+                  className={`block py-2 px-4 rounded-md ${isActive('/report-form') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                >
+                  Add New Report
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Analytics Section */}
+          <div>
+            <button
+              className="block text-gray-300 hover:text-white py-2 px-4 rounded-md w-full text-left"
+              onClick={() => toggleSection('analytics')}
+            >
+              Analytics
+            </button>
+            {toggledSections['analytics'] && (
+              <div className="pl-6 space-y-2">
+                <Link
+                  to="/data-analytics"
+                  className={`block py-2 px-4 rounded-md ${isActive('/data-analytics') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                >
+                  Data Analytics Overview
+                </Link>
+                <Link
+                  to="/highwaste"
+                  className={`block py-2 px-4 rounded-md ${isActive('/highwaste') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                >
+                  High Waste Areas Report
+                </Link>
+                <Link
+                  to="/wasteGeneration"
+                  className={`block py-2 px-4 rounded-md ${isActive('/wasteGeneration') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                >
+                  Waste Generation
+                </Link>
+                <Link
+                  to="/CollectionReport"
+                  className={`block py-2 px-4 rounded-md ${isActive('/CollectionReport') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                >
+                  Collection Efficiency Report
+                </Link>
+              </div>
+            )}
+          </div>
+
         </nav>
         {/* Logout */}
         <div className="bg-gray-700 p-4 mt-10">

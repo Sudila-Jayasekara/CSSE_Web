@@ -27,4 +27,17 @@ public class GarbageBinService {
     public void deleteGarbageBin(Long garbageBinId) {
         garbageBinRepository.deleteById(garbageBinId);  // Call on instance
     }
+
+    public GarbageBin updateGarbageBin(Long garbageBinId, GarbageBin garbageBinDetails) {
+        GarbageBin existingGarbageBin = garbageBinRepository.findById(garbageBinId)
+                .orElseThrow(() -> new RuntimeException("GarbageBin not found with id: " + garbageBinId));
+
+        existingGarbageBin.setName(garbageBinDetails.getName());
+        existingGarbageBin.setGarbageType(garbageBinDetails.getGarbageType());
+        existingGarbageBin.setGarbageLevel(garbageBinDetails.getGarbageLevel());
+        existingGarbageBin.setAddress(garbageBinDetails.getAddress());
+        existingGarbageBin.setUser(garbageBinDetails.getUser());
+
+        return garbageBinRepository.save(existingGarbageBin);
+    }
 }
