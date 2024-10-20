@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/CSSELogo.png'
 
 const Header = () => {
   const navigate = useNavigate();
@@ -10,10 +11,12 @@ const Header = () => {
 
   return (
     <header className="bg-gray-800 text-white flex justify-between items-center h-16 px-4">
-      {/* Logo */}
-      <div className="flex-shrink-0">
-        <img className="h-8" src="https://via.placeholder.com/150x50" alt="Logo" />
-      </div>
+<div className="flex items-center justify-center">
+  <div className="bg-white w-20 h-10 rounded-lg p-2 flex items-center justify-center overflow-hidden"> {/* Container with fixed size */}
+    <img className="h-10 w-10" src={logo} alt="Logo" /> {/* Increase the logo size */}
+  </div>
+</div>
+
 
       {/* Navigation Links (Hidden on small screens) */}
       <div className="hidden md:flex space-x-10">

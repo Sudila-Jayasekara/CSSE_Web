@@ -48,30 +48,12 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
           <div>
             <button
               className="block text-gray-300 hover:text-white py-2 px-4 rounded-md w-full text-left"
-              onClick={() => toggleSection('users')}
+              onClick={() => toggleSection('bin')}
             >
-              Users
+              Garbage Bins
             </button>
-            {toggledSections['users'] && (
+            {toggledSections['bin'] && (
               <div className="pl-6 space-y-2">
-                <Link
-                  to="/login"
-                  className={`block py-2 px-4 rounded-md ${isActive('/login') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className={`block py-2 px-4 rounded-md ${isActive('/register') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                >
-                  Register
-                </Link>
-                <Link
-                  to="/users"
-                  className={`block py-2 px-4 rounded-md ${isActive('/users') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                >
-                  View Users
-                </Link>
                 <Link
                   to="/add-bin"
                   className={`block py-2 px-4 rounded-md ${isActive('/add-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
@@ -89,6 +71,12 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                   className={`block py-2 px-4 rounded-md ${isActive('/user-list-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                 >
                   user-list-bin
+                </Link>
+                <Link
+                  to="/truck-full-bin"
+                  className={`block py-2 px-4 rounded-md ${isActive('/truck-full-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                >
+                  truck-full-bin
                 </Link>
               </div>
             )}
