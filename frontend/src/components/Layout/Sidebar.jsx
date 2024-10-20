@@ -90,7 +90,20 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                 >
                   User List Bin
                 </Link>
+              </div>
+            )}
+          </div>
 
+          {/* truck */}
+          <div>
+            <button
+              className="block text-gray-300 hover:text-white py-2 px-4 rounded-md w-full text-left"
+              onClick={() => toggleSection('garbage_truck')}
+            >
+              Garbage Truck
+            </button>
+            {toggledSections['garbage_truck'] && (
+              <div className="pl-6 space-y-2">
                 <Link
                   to="/truck-full-bin"
                   className={`block py-2 px-4 rounded-md ${isActive('/truck-full-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
@@ -100,6 +113,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
               </div>
             )}
           </div>
+
 
           <div>
             <button
