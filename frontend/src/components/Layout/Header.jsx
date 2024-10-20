@@ -11,7 +11,7 @@ const Header = () => {
   const user = localStorage.getItem('user');
 
   const handleProfileClick = () => {
-    navigate('/profile');
+    navigate('/users');
   };
 
   const handleRegisterClick = () => {

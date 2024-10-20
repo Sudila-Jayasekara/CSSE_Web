@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { specialWasteService } from '../../../services/WasteManagement/SpecialWasteService';
 import { paymentService } from '../../../services/paymentService';
 import PaymentModal from '../PaymentModel';
+import { jsPDF } from 'jspdf';
+
 
 const SpecialWasteItem = ({ item, handleDelete, handlePaymentClick, userRole }) => {
   const [cost, setCost] = useState(null); // State to hold the payment amount
@@ -89,7 +91,7 @@ const WasteTable = ({ specialWastes, handleDelete, handlePaymentClick, userRole 
           <th className="py-3 px-4 text-left">Date</th>
           <th className="py-3 px-4 text-left">Time</th>
           <th className="py-3 px-4 text-left">Cost</th>
-           <th className="py-3 px-4 text-left">Actions</th>  {/*don't want display if cost is not null */}
+          <th className="py-3 px-4 text-left">Actions</th>  {/*don't want display if cost is not null */}
         </tr>
       </thead>
       <tbody>
@@ -117,10 +119,10 @@ const SpecialWastes = () => {
   const [selectedSpecialWaste, setSelectedSpecialWaste] = useState(null);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user')); 
+    const user = JSON.parse(localStorage.getItem('user'));
     if (user) {
-      setLoggedInUserId(user.id); 
-      setUserRole(user.role); 
+      setLoggedInUserId(user.id);
+      setUserRole(user.role);
     }
   }, []);
 
@@ -189,10 +191,43 @@ const SpecialWastes = () => {
     return <div className="text-red-500">Error: {error}</div>;
   }
 
+  const handleGenerateReport = () => {
+    const doc = new jsPDF();
+
+    // Add title
+    doc.setFontSize(18);
+    doc.text('Special Waste Report', 70, 10);
+
+    // Add column headers for waste data
+    doc.setFontSize(12);
+    doc.text('ID', 10, 20);
+    doc.text('Waste Type', 40, 20);
+    doc.text('Description', 80, 20);
+    doc.text('Cost', 150, 20);
+
+    // Add rows of waste data
+    specialWastes.forEach((waste, index) => {
+      const rowY = 30 + (index * 10); // Set dynamic Y position for each row
+      doc.text(waste.id.toString(), 10, rowY);
+      doc.text(waste.wasteType, 40, rowY);
+      doc.text(waste.description, 80, rowY);
+      doc.text(waste.cost ? waste.cost.toString() : 'No payment', 150, rowY);
+    });
+
+    // Save the PDF
+    doc.save('special_waste_report.pdf');
+  };
+
   return (
     <div className="m-4">
       <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-md">
         <h2 className="text-2xl font-semibold mb-6 text-center">Special Wastes List</h2>
+        <button
+          onClick={handleGenerateReport}
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4"
+        >
+          Generate Report
+        </button>
         <div className="overflow-x-auto">
           <WasteTable
             specialWastes={specialWastes}
@@ -203,11 +238,11 @@ const SpecialWastes = () => {
         </div>
       </div>
 
-      <PaymentModal 
-        isOpen={isPaymentModalOpen} 
-        onClose={() => setIsPaymentModalOpen(false)} 
-        item={selectedSpecialWaste} 
-        handlePayment={handlePayment} 
+      <PaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        item={selectedSpecialWaste}
+        handlePayment={handlePayment}
       />
     </div>
   );

@@ -17,7 +17,7 @@ const Login = () => {
       localStorage.setItem('user', JSON.stringify(loggedInUser));
       
       console.log("Logged in user:", loggedInUser);
-      navigate("/users"); // Redirect to users page
+      navigate("/"); // Redirect to users page
       
     } catch (error) {
       setError(error.message); // Display error message
