@@ -5,6 +5,7 @@ const NotifyFullBins = () => {
     const [fullBins, setFullBins] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [message, setMessage] = useState(''); // State for collect message
 
     useEffect(() => {
         const fetchFullGarbageBins = async () => {
@@ -21,16 +22,22 @@ const NotifyFullBins = () => {
         fetchFullGarbageBins();
     }, []);
 
-    const handleToggleCollect = async (binId) => {
-        try {
-            const updatedBin = await garbageBinTruckService.toggleCollectBin(binId);
-            setFullBins((prevBins) =>
-                prevBins.map((bin) => (bin.id === updatedBin.id ? updatedBin : bin))
-            );
-        } catch (error) {
-            console.error('Error updating collect status:', error);
-            setError('Failed to update collect status');
-        }
+    const handleToggleCollect = (binId) => {
+        setFullBins((prevBins) =>
+            prevBins.map((bin) => {
+                if (bin.id === binId) {
+                    const isCollected = !bin.isCollected;
+                    // Show collect message when collected
+                    if (isCollected) {
+                        setMessage('Collect Done');
+                        // Clear the message after 2 seconds
+                        setTimeout(() => setMessage(''), 2000);
+                    }
+                    return { ...bin, isCollected };
+                }
+                return bin;
+            })
+        );
     };
 
     if (loading) {
@@ -45,6 +52,7 @@ const NotifyFullBins = () => {
         <div className="m-4">
             <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-md">
                 <h2 className="text-2xl font-semibold mb-6 text-center text-blue-600">Full Garbage Bins</h2>
+                {message && <div className="mb-4 text-green-600 text-center">{message}</div>} {/* Display the message */}
                 {fullBins.length > 0 ? (
                     <div className="overflow-x-auto">
                         <table className="min-w-full bg-white border border-gray-300 rounded-md shadow-md">

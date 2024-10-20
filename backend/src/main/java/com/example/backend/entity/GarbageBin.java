@@ -27,6 +27,7 @@ public class GarbageBin {
     @JoinColumn(name = "garbage_truck_id")
     private GarbageTruck garbageTruck;
 
+
     // Method to check if the garbage bin is full
     public boolean isFull() {
         return this.garbageLevel != null && this.garbageLevel.equals(100); // Check if garbageLevel is 100
