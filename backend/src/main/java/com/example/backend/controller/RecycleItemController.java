@@ -20,17 +20,17 @@ public class RecycleItemController {
     }
 
     @GetMapping("/{id}")
-    public RecycleItem getSpecialWasteById(@PathVariable Long id) {
+    public RecycleItem getRecycleItemById(@PathVariable Long id) {
         return recycleItemService.getRecycleItemById(id);
     }
 
     @PostMapping
-    public RecycleItem saveSpecialWaste(@RequestBody RecycleItem recycleItem) {
+    public RecycleItem saveRecycleItem(@RequestBody RecycleItem recycleItem) {
         return recycleItemService.saveRecycleItem(recycleItem);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSpecialWasteById(@PathVariable Long id) {
+    public void deleteRecycleItemById(@PathVariable Long id) {
         recycleItemService.deleteRecycleItemById(id);
     }
 }

@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // Define the base URL for the API (adjust this based on your backend setup)
-const API_BASE_URL = 'http://localhost:1010/api/garbage-bin'; // Replace with your actual API URL
+const API_BASE_URL = 'http://localhost:8080/api/garbage-bin'; // Replace with your actual API URL
 
 export const garbageBinService = {
     // Method to get all garbage bins

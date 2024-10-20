@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 // Replace this with your actual API endpoint for reports
-const API_URL = "http://localhost:1010/api/reports"; // Adjust the URL as necessary
-const API_URL2 = "http://localhost:1010/api/recycle-item"; 
+const API_URL = "http://localhost:8080/api/reports"; // Adjust the URL as necessary
+const API_URL2 = "http://localhost:8080/api/recycle-item"; 
 
-const PREDICTION_API_URL = "http://localhost:1010/api/predictions/getFutureWastePrediction"; 
+const PREDICTION_API_URL = "http://localhost:8080/api/predictions/getFutureWastePrediction"; 
 
 export const getFutureWastePrediction = async (reports) => {
     try {
