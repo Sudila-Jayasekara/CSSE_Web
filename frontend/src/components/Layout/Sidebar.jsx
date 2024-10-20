@@ -76,19 +76,26 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                   to="/add-bin"
                   className={`block py-2 px-4 rounded-md ${isActive('/add-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                 >
-                  add-bin
+                  Add Bin
                 </Link>
                 <Link
                   to="/list-bin"
                   className={`block py-2 px-4 rounded-md ${isActive('/list-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                 >
-                  list-bin
+                  List Bin
                 </Link>
                 <Link
                   to="/user-list-bin"
                   className={`block py-2 px-4 rounded-md ${isActive('/user-list-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                 >
-                  user-list-bin
+                  User List Bin
+                </Link>
+
+                <Link
+                  to="/truck-full-bin"
+                  className={`block py-2 px-4 rounded-md ${isActive('/truck-full-bin') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                >
+                  Full Bins
                 </Link>
               </div>
             )}
