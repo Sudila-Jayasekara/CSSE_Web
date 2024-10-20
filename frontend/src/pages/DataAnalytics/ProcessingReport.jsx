@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import { getAllReports } from '../../services/analyticsService';
-import { Bar } from 'react-chartjs-2';
+import { Pie } from 'react-chartjs-2'; // Import the Pie component
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import regression from 'regression';
 import 'chart.js/auto';
 
-const WasteGenerationReport = () => {
+const ProcessingFacilityPerformanceReport = () => {
     const [reports, setReports] = useState([]);
     const [error, setError] = useState('');
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [analysis, setAnalysis] = useState({ totalWaste: 0, averageWaste: 0, maxWaste: 0, maxWasteDate: '' });
+    const [analysis, setAnalysis] = useState({ totalWaste: 0, averageWaste: 0, maxWaste: 0, maxWasteType: '' });
     const [predictionData, setPredictionData] = useState(null);
 
     const fetchReportsData = async () => {
@@ -38,40 +38,30 @@ const WasteGenerationReport = () => {
         let totalWeight = 0;
 
         data.forEach((report) => {
-            const { collectionDate, wasteWeight } = report;
-            const date = new Date(collectionDate);
-            const year = date.getFullYear();
-            const weekNumber = getWeekNumber(date);
-            const weekKey = `${year}-W${weekNumber}`;
+            const { wasteWeight, wasteType } = report;
             const weight = parseFloat(wasteWeight);
 
             totalWeight += weight;
 
-            if (wasteData[weekKey]) {
-                wasteData[weekKey].weight += weight;
+            if (wasteData[wasteType]) {
+                wasteData[wasteType].weight += weight;
             } else {
-                wasteData[weekKey] = { weight };
+                wasteData[wasteType] = { weight };
             }
         });
 
-        const sortedWeeks = Object.keys(wasteData).sort((a, b) => {
-            const [yearA, weekA] = a.split('-W').map(Number);
-            const [yearB, weekB] = b.split('-W').map(Number);
-            return yearA === yearB ? weekA - weekB : yearA - yearB;
-        });
-
-        const labels = sortedWeeks;
-        const weights = labels.map((week) => wasteData[week].weight);
+        const labels = Object.keys(wasteData);
+        const weights = labels.map((type) => wasteData[type].weight);
 
         const averageWeight = totalWeight / weights.length || 0;
         const maxWaste = Math.max(...weights);
-        const maxWasteDate = labels[weights.indexOf(maxWaste)];
+        const maxWasteType = labels[weights.indexOf(maxWaste)];
 
         setAnalysis({
             totalWaste: totalWeight,
             averageWaste: averageWeight,
             maxWaste,
-            maxWasteDate,
+            maxWasteType,
         });
 
         setChartData({
@@ -80,49 +70,38 @@ const WasteGenerationReport = () => {
                 {
                     label: 'Waste Weight (kg)',
                     data: weights,
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                    ],
+                    borderColor: 'rgba(0, 0, 0, 1)',
                     borderWidth: 1,
                 },
             ],
         });
 
-        predictWasteTrends(sortedWeeks, weights);
+        predictWasteTrends(); // Call the updated prediction function
     };
 
-    const predictWasteTrends = (sortedWeeks, weights) => {
-        const futurePredictions = {};
-        const weightsOverTime = sortedWeeks.map((week, index) => [index, weights[index]]);
-        
-        const result = regression.linear(weightsOverTime);
-        const slope = result.equation[0];
-        const intercept = result.equation[1];
+    const predictWasteTrends = () => {
+        // Define the prediction types
+        const wasteTypes = ['Plastic', 'Organic', 'Recyclable', 'Hazardous'];
+        const predictedWeights = [];
 
-        for (let i = 1; i <= 4; i++) {
-            const nextWeekIndex = weightsOverTime.length + i - 1;
-            const predictedWeight = slope * nextWeekIndex + intercept;
-            const nextWeek = getNextWeekLabel(sortedWeeks, i);
-            futurePredictions[nextWeek] = predictedWeight;
-        }
+        // Generate dummy predictions for each waste type (customize as needed)
+        wasteTypes.forEach((type, index) => {
+            predictedWeights.push(Math.random() * 100); // Random weight for demonstration
+        });
+
+        const futurePredictions = {};
+        wasteTypes.forEach((type, index) => {
+            futurePredictions[type] = predictedWeights[index];
+        });
 
         setPredictionData(futurePredictions);
-    };
-
-    const getNextWeekLabel = (currentWeeks, weeksAhead) => {
-        const lastWeek = currentWeeks[currentWeeks.length - 1];
-        const [year, week] = lastWeek.split('-W').map(Number);
-        const nextWeekNumber = week + weeksAhead;
-
-        if (nextWeekNumber > 52) {
-            return `${year + 1}-W${nextWeekNumber - 52}`;
-        }
-        return `${year}-W${nextWeekNumber}`;
-    };
-
-    const getWeekNumber = (date) => {
-        const startDate = new Date(date.getFullYear(), 0, 1);
-        const days = Math.floor((date - startDate) / (24 * 60 * 60 * 1000));
-        return Math.ceil((days + startDate.getDay() + 1) / 7);
     };
 
     useEffect(() => {
@@ -153,19 +132,19 @@ const WasteGenerationReport = () => {
         pdf.line(10, lineY, pdf.internal.pageSize.width - 10, lineY);
 
         pdf.setFontSize(16);
-        pdf.text('Waste Generation Report', 10, 50);
+        pdf.text('Processing Facility Performance Report', 10, 50);
 
         const input = document.getElementById('report-content');
         html2canvas(input).then((canvas) => {
             const imgData = canvas.toDataURL('image/png');
             pdf.addImage(imgData, 'PNG', 10, 60, 190, 0);
-            pdf.save('WasteGenerationReport.pdf');
+            pdf.save('ProcessingFacilityPerformanceReport.pdf');
         });
     };
 
     return (
         <div style={styles.container}>
-            <h2 style={styles.header}>Waste Generation Report</h2>
+            <h2 style={styles.header}>Processing Facility Performance Report</h2>
             <div id="report-content" style={styles.reportContent}>
                 {error && <p style={styles.error}>{error}</p>}
 
@@ -175,45 +154,32 @@ const WasteGenerationReport = () => {
                     <>
                         {chartData ? (
                             <div>
-                                <Bar
-                                    data={chartData}
-                                    options={{
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true,
-                                                title: {
-                                                    display: true,
-                                                    text: 'Waste Weight (kg)',
+                                <div style={{ width: '300px', height: '300px' }}> {/* Make pie chart smaller */}
+                                    <Pie
+                                        data={chartData}
+                                        options={{
+                                            plugins: {
+                                                legend: {
+                                                    position: 'top',
                                                 },
                                             },
-                                            x: {
-                                                title: {
-                                                    display: true,
-                                                    text: 'Collection Week',
-                                                },
-                                            },
-                                        },
-                                        plugins: {
-                                            legend: {
-                                                position: 'top',
-                                            },
-                                        },
-                                    }}
-                                />
+                                        }}
+                                    />
+                                </div>
                                 <div style={{ ...styles.analysis, marginBottom: '20px' }}>
                                     <h3>Analysis</h3>
-                                    <p>Total Waste Generated: {analysis.totalWaste.toFixed(2)} kg</p>
-                                    <p>Average Waste per Collection: {analysis.averageWaste.toFixed(2)} kg</p>
-                                    <p>Highest Waste Generation: {analysis.maxWaste} kg on {analysis.maxWasteDate}</p>
+                                    <p>Total Waste Processed: {analysis.totalWaste.toFixed(2)} kg</p>
+                                    <p>Average Waste per Facility: {analysis.averageWaste.toFixed(2)} kg</p>
+                                    <p>Highest Waste Processed: {analysis.maxWaste} kg from type {analysis.maxWasteType}</p>
                                 </div>
 
                                 <div style={{ marginBottom: '20px' }}>
-                                    <h3>Prediction for Next 4 Weeks:</h3>
+                                    <h3>Prediction for Waste Types:</h3>
                                     {predictionData ? (
                                         <ul>
-                                            {Object.entries(predictionData).map(([period, predictedWeight], index) => (
+                                            {Object.entries(predictionData).map(([type, predictedWeight], index) => (
                                                 <li key={index}>
-                                                    <strong>Period:</strong> {period} - 
+                                                    <strong>Type:</strong> {type} - 
                                                     <strong> Predicted Waste Weight:</strong> {predictedWeight.toFixed(2)} kg
                                                 </li>
                                             ))}
@@ -278,4 +244,4 @@ const styles = {
     },
 };
 
-export default WasteGenerationReport;
+export default ProcessingFacilityPerformanceReport;

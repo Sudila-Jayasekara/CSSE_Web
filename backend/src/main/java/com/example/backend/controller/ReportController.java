@@ -73,4 +73,9 @@ public class ReportController {
         reportService.deleteReportById(id);
         logger.info("Deleted report with ID {}", id);
     }
+
+    @PostMapping("/analyze")
+    public String analyzeReports(@RequestBody List<Report> reports) {
+        return reportService.analyzeReportsWithAI(reports);
+    }
 }

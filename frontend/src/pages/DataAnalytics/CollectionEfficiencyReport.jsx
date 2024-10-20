@@ -7,30 +7,35 @@ import regression from 'regression';
 import 'chart.js/auto';
 
 const CollectionEfficiencyReport = () => {
-    const [reports, setReports] = useState([]); // Fixed here
+    const [reports, setReports] = useState([]);
     const [error, setError] = useState('');
     const [chartData, setChartData] = useState(null);
     const [predictionData, setPredictionData] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const fetchReportsData = async () => {
-        try {
-            const data = await getAllRecycleItems(); // Adjust this method to get collection efficiency data
-            if (Array.isArray(data)) {
-                setReports(data);
-                processChartData(data);
-            } else {
-                console.error('Fetched data is not an array:', data);
+    // Fetch reports data when component mounts
+    useEffect(() => {
+        const fetchReportsData = async () => {
+            try {
+                const data = await getAllRecycleItems(); // Fetch data from the service
+                if (Array.isArray(data)) {
+                    setReports(data);
+                    processChartData(data); // Process the fetched data for the chart
+                } else {
+                    console.error('Fetched data is not an array:', data);
+                    setReports([]);
+                }
+            } catch (error) {
+                console.error('Error fetching reports', error);
+                setError('Failed to fetch reports.');
                 setReports([]);
+            } finally {
+                setLoading(false);
             }
-        } catch (error) {
-            console.error('Error fetching reports', error);
-            setError('Failed to fetch reports.');
-            setReports([]);
-        } finally {
-            setLoading(false);
-        }
-    };
+        };
+
+        fetchReportsData();
+    }, []); // Empty dependency array means this effect runs once on mount
 
     const processChartData = (data) => {
         const routes = {};
@@ -39,38 +44,44 @@ const CollectionEfficiencyReport = () => {
             const date = new Date(dateTime).toLocaleDateString(); // Format date for display
             const key = `${pickupLocation}-${date}`; // Unique key for each route and date
             
-            if (routes[key]) {
-                routes[key] += parseFloat(totalQuantity);
-            } else {
-                routes[key] = parseFloat(totalQuantity);
+            // Initialize an array for the key if it doesn't exist
+            if (!routes[key]) {
+                routes[key] = [];
             }
+            
+            // Push the quantity to the array for the corresponding key
+            routes[key].push(parseFloat(totalQuantity));
         });
 
         const labels = Object.keys(routes);
-        const weights = labels.map((key) => routes[key]);
-
-        const backgroundColors = labels.map(() => {
-            const r = Math.floor(Math.random() * 255);
-            const g = Math.floor(Math.random() * 255);
-            const b = Math.floor(Math.random() * 255);
-            return `rgba(${r}, ${g}, ${b}, 0.6)`;
+        const weights = labels.map((key) => {
+            // Sum the total quantities for the current key
+            return routes[key].reduce((total, weight) => total + weight, 0);
         });
 
-        const borderColors = labels.map(() => {
-            const r = Math.floor(Math.random() * 255);
-            const g = Math.floor(Math.random() * 255);
-            const b = Math.floor(Math.random() * 255);
-            return `rgba(${r}, ${g}, ${b}, 1)`;
-        });
+        // Generate random colors for chart
+        const generateColors = (length) => {
+            return Array.from({ length }, () => {
+                const r = Math.floor(Math.random() * 255);
+                const g = Math.floor(Math.random() * 255);
+                const b = Math.floor(Math.random() * 255);
+                return {
+                    backgroundColor: `rgba(${r}, ${g}, ${b}, 0.6)`,
+                    borderColor: `rgba(${r}, ${g}, ${b}, 1)`
+                };
+            });
+        };
 
+        const colors = generateColors(labels.length);
+        
         setChartData({
             labels,
             datasets: [
                 {
                     label: 'Total Quantity Collected (kg)',
                     data: weights,
-                    backgroundColor: backgroundColors,
-                    borderColor: borderColors,
+                    backgroundColor: colors.map(color => color.backgroundColor),
+                    borderColor: colors.map(color => color.borderColor),
                     borderWidth: 1,
                 },
             ],
@@ -82,11 +93,10 @@ const CollectionEfficiencyReport = () => {
     const predictCollectionTrends = (routes) => {
         const futurePredictions = {};
         const currentTrendAnalysis = {};
-
+    
         Object.keys(routes).forEach((route) => {
             const weightsOverTime = routes[route]
-                .map((entry, index) => [index, entry])
-                .sort((a, b) => a[0] - b[0]);
+                .map((entry, index) => [index, entry]); // Create pairs of index and weight
 
             const result = regression.linear(weightsOverTime);
             const slope = result.equation[0];
@@ -95,56 +105,38 @@ const CollectionEfficiencyReport = () => {
 
             futurePredictions[route] = nextMonthWeight;
 
-            if (slope > 0) {
-                currentTrendAnalysis[route] = 'increasing';
-            } else if (slope < 0) {
-                currentTrendAnalysis[route] = 'decreasing';
-            } else {
-                currentTrendAnalysis[route] = 'stable';
-            }
+            currentTrendAnalysis[route] = slope > 0 ? 'increasing' : slope < 0 ? 'decreasing' : 'stable';
         });
 
         setPredictionData({ futurePredictions, currentTrendAnalysis });
     };
 
-    useEffect(() => {
-        fetchReportsData();
-    }, []);
-
     const generatePDF = () => {
         const pdf = new jsPDF();
-    
-        // Load logo and add it to the PDF
         pdf.addImage('/src/components/CSSELogo.png', 'PNG', 10, 10, 50, 30); // Logo in the top left corner
-    
-        // Set company name
+
         const companyName = 'WasteWise';
         pdf.setFontSize(16);
         const companyNameWidth = pdf.getTextWidth(companyName);
         pdf.text(companyName, (pdf.internal.pageSize.width - companyNameWidth) / 2, 20); // Center company name
-    
-        // Add tagline below the company name
+
         const tagline = 'Smart Solutions for a Cleaner Tomorrow';
         pdf.setFontSize(12);
         const taglineWidth = pdf.getTextWidth(tagline);
         pdf.text(tagline, (pdf.internal.pageSize.width - taglineWidth) / 2, 30); // Center tagline
-    
-        // Add the current date and time
+
         const currentDate = new Date().toLocaleString();
         pdf.setFontSize(10);
         pdf.text(`Date: ${currentDate}`, 150, 10);
-    
-        // Draw a horizontal line to separate content
-        pdf.setDrawColor(0); // Set line color
-        pdf.setLineWidth(0.5); // Set line width
-        const lineY = 40; // Y-coordinate for the line
+
+        pdf.setDrawColor(0);
+        pdf.setLineWidth(0.5);
+        const lineY = 40;
         pdf.line(10, lineY, pdf.internal.pageSize.width - 10, lineY); // Draw line from left to right
-    
-        // Add title
+
         pdf.setFontSize(16);
         pdf.text('Collection Efficiency Report', 10, 50);
-    
-        // Adding chart to PDF
+
         const input = document.getElementById('report-content');
         html2canvas(input).then((canvas) => {
             const imgData = canvas.toDataURL('image/png');

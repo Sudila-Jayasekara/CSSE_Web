@@ -79,12 +79,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             </button>
             {toggledSections['analytics'] && (
               <div className="pl-6 space-y-2">
-                <Link
-                  to="/data-analytics"
-                  className={`block py-2 px-4 rounded-md ${isActive('/data-analytics') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
-                >
-                  Data Analytics Overview
-                </Link>
+              
                 <Link
                   to="/highwaste"
                   className={`block py-2 px-4 rounded-md ${isActive('/highwaste') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
@@ -102,6 +97,12 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                   className={`block py-2 px-4 rounded-md ${isActive('/CollectionReport') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
                 >
                   Collection Efficiency Report
+                </Link>
+                <Link
+                  to="/processingReport"
+                  className={`block py-2 px-4 rounded-md ${isActive('/CollectionReport') ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white'}`}
+                >
+                  Processing Facility Performance Report
                 </Link>
               </div>
             )}

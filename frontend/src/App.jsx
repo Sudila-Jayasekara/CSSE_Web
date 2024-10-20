@@ -17,7 +17,7 @@ import HighWasteAreaReport from './pages/DataAnalytics/HighWasteAreasReport';
 import WasteGenerationReport from './pages/DataAnalytics/WasteGenerationReport';
 import CollectionEfficiencyReport from './pages/DataAnalytics/CollectionEfficiencyReport';
 import ViewReport from './pages/DataAnalytics/ViewReport';
-
+import ProcessingFacilityPerformanceReport from './pages/DataAnalytics/ProcessingReport';
 // Payment Management
 import PaymentPage from './pages/PaymentManagement/PaymentPage';
 
@@ -49,6 +49,8 @@ function App() {
         <Route path="/wasteGeneration" element={<Layout><WasteGenerationReport /></Layout>} />
         <Route path="/CollectionReport" element={<Layout><CollectionEfficiencyReport  /></Layout>} />
         <Route path="/viewReport" element={<Layout><ViewReport /></Layout>} />
+        <Route path="/processingReport" element={<Layout><ProcessingFacilityPerformanceReport/></Layout>} />
+        
         {/* Payment Management */}
         <Route path="/payment" element={<Layout><PaymentPage /></Layout>} />
 

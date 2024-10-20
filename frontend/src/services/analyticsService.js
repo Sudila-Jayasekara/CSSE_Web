@@ -4,18 +4,6 @@ import axios from 'axios';
 const API_URL = "http://localhost:1010/api/reports"; // Adjust the URL as necessary
 const API_URL2 = "http://localhost:1010/api/recycle-item"; 
 
-const PREDICTION_API_URL = "http://localhost:1010/api/predictions/getFutureWastePrediction"; 
-
-export const getFutureWastePrediction = async (reports) => {
-    try {
-        const response = await axios.post(PREDICTION_API_URL, reports);
-        return response.data; // Return the prediction data
-    } catch (error) {
-        console.error("Error fetching predictions:", error.response?.data || error.message);
-        throw error;
-    } 
-}; 
-
 // Function to create a report
 export const createReport = async (reportData) => {
     try {
