@@ -5,6 +5,8 @@ export const paymentService = {
     getPaymentById,
     savePayment,
     deletePaymentById,
+    getPaymentByRecycleItemId,
+    getPaymentBySpecialWasteId
 };
 
 // Fetch all Payments
@@ -45,6 +47,43 @@ async function getPaymentById(id) {
     }
 }
 
+// Fetch a payment by RecycleItem ID
+async function getPaymentByRecycleItemId(recycleItemId) {
+    try {
+        const response = await fetch(`${API_URL}/recycle-item/${recycleItemId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to fetch payment for recycle item with id ${recycleItemId}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(`Error fetching payment by recycle item id ${recycleItemId}:`, error);
+        throw error;
+    }
+}
+
+// Fetch a payment by SpecialWaste ID
+async function getPaymentBySpecialWasteId(specialWasteId) {
+    try {
+        const response = await fetch(`${API_URL}/special-waste/${specialWasteId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to fetch payment for special waste with id ${specialWasteId}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error(`Error fetching payment by special waste id ${specialWasteId}:`, error);
+        throw error;
+    }
+}
 
 
 async function savePayment(paymentData) {

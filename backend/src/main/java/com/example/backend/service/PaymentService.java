@@ -21,6 +21,14 @@ public class PaymentService {
         return paymentRepository.findById(paymentId).orElse(null);  // Call on instance
     }
 
+    public Payment getPaymentsByRecycleItemId(Long recycleItemId) {
+        return paymentRepository.findByRecycleItemId(recycleItemId);
+    }
+
+    public Payment getPaymentsBySpecialWasteId(Long specialWasteId) {
+        return paymentRepository.findBySpecialWasteId(specialWasteId);
+    }
+
     public Payment savePayment(Payment payment) {
         // Use PaymentFactory to create the appropriate Payment
         Payment finalizedPayment = PaymentFactory.createPayment(payment);

@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { specialWasteService } from "../../../services/WasteManagement/SpecialWasteService";
 import { useNavigate } from "react-router-dom";
+import ImageSlideshow from "../ImageSlideshow";
+//images
+import recycleItems1 from "../../../assets/recycleItems.jpg";
+import recycleItems2 from "../../../assets/recycleItems2.jpg";
+import recycleItems3 from "../../../assets/recycleItems3.jpg";
+import specialItems from "../../../assets/specialItems.jpg";
 
 const AddSpecialWaste = () => {
   const [formData, setFormData] = useState({
@@ -20,7 +26,7 @@ const AddSpecialWaste = () => {
     if (user) {
       setFormData((prevFormData) => ({
         ...prevFormData,
-        user: user // Set the user from localStorage
+        user: user, // Set the user from localStorage
       }));
     }
   }, []);
@@ -104,9 +110,12 @@ const AddSpecialWaste = () => {
     </div>
   );
 
+  const images = [recycleItems1, recycleItems2, recycleItems3, specialItems];
+
   return (
-    <div className="m-4">
-      <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg border border-gray-300">
+    <div className="flex h-screen w-full p-5 space-x-5">
+      {/* Left: Form Section */}
+      <div className="w-3/5 bg-white p-8 rounded-lg shadow-lg border border-gray-300">
         <h2 className="text-3xl font-semibold mb-8 text-center text-gray-800">Add Special Waste</h2>
 
         {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
@@ -124,6 +133,11 @@ const AddSpecialWaste = () => {
             Submit
           </button>
         </form>
+      </div>
+
+      {/* Right: Image Section */}
+      <div className="w-2/5">
+        <ImageSlideshow images={images} interval={5000} /> {/* Pass images to the Slideshow */}
       </div>
     </div>
   );

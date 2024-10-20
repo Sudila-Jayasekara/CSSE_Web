@@ -17,7 +17,7 @@ const Header = () => {
 
       {/* Navigation Links (Hidden on small screens) */}
       <div className="hidden md:flex space-x-10">
-        <a href="#" className="text-gray-300 hover:text-white">Home</a>
+        <a href="/" className="text-gray-300 hover:text-white">Home</a>
         <a href="#" className="text-gray-300 hover:text-white">About</a>
         <a href="#" className="text-gray-300 hover:text-white">Services</a>
         <a href="#" className="text-gray-300 hover:text-white">Contact</a>

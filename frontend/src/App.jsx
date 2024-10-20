@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // import pages
@@ -13,6 +13,11 @@ import Profile from './pages/User/ProfilePage';
 
 // Data Analytics
 import AnalyicsDashboard from './pages/DataAnalytics/AnalyticsDashboard';
+import ReportForm from './pages/DataAnalytics/ReportForm';
+import HighWasteAreaReport from './pages/DataAnalytics/HighWasteAreasReport';
+import WasteGenerationReport from './pages/DataAnalytics/WasteGenerationReport';
+import CollectionEfficiencyReport from './pages/DataAnalytics/CollectionEfficiencyReport';
+import ViewReport from './pages/DataAnalytics/ViewReport';
 
 // Payment Management
 import PaymentPage from './pages/PaymentManagement/PaymentPage';
@@ -20,7 +25,9 @@ import PendingPayment from './pages/PaymentManagement/PendingPayment';
 import PaymentForm from './pages/PaymentManagement/PaymentForm';
 
 // Garbage Bin
-import WasteCollectionPage from './pages/GarbageBin/WasteCollectionPage';
+import AddGarbageBin from './pages/GarbageBin/AddGarbageBin';
+import ListGarbageBin from './pages/GarbageBin/ListGarbageBin';
+import UserListGarbageBin from './pages/GarbageBin/UserGarbageView';
 
 // Waste Management
 import WasteManagementPage from './pages/WasteManagement/WasteManagementPage';
@@ -43,14 +50,21 @@ function App() {
         
         {/* Data Analytics */}
         <Route path="/data-analytics" element={<Layout><AnalyicsDashboard /></Layout>} />
-
+        <Route path="/report-form" element={<Layout><ReportForm /></Layout>} />
+        <Route path="/highwaste" element={<Layout><HighWasteAreaReport /></Layout>} />
+        <Route path="/wasteGeneration" element={<Layout><WasteGenerationReport /></Layout>} />
+        <Route path="/CollectionReport" element={<Layout><CollectionEfficiencyReport  /></Layout>} />
+        <Route path="/viewReport" element={<Layout><ViewReport /></Layout>} />
+        
         {/* Payment Management */}
         <Route path="/payment" element={<Layout><PaymentPage /></Layout>} />
         <Route path="/pending-payment" element={<Layout><PendingPayment /></Layout>} />
         <Route path='/payment-form' element={<Layout><PaymentForm /></Layout>} />
 
         {/* Garbage Bin */}
-        <Route path="/waste-collection" element={<Layout><WasteCollectionPage /></Layout>} />
+        <Route path="/add-bin" element={<Layout><AddGarbageBin /></Layout>} />
+        <Route path="/list-bin" element={<Layout><ListGarbageBin /></Layout>} />
+        <Route path="/user-list-bin" element={<Layout><UserListGarbageBin /></Layout>} />
 
         {/* Waste Management */}
         <Route path="/waste-management" element={<Layout><WasteManagementPage /></Layout>} />

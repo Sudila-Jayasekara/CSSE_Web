@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { userService } from "../../services/userService";
+import { userService } from "../../services/userService"; // Ensure this path is correct
 import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
@@ -8,7 +8,7 @@ const RegisterPage = () => {
         email: "",
         password: "",
         phone: "",
-        paymentType: "",
+        paymentType: "", // Added paymentType
         role: "USER", // Set the default role to USER
     });
 
@@ -28,12 +28,12 @@ const RegisterPage = () => {
                 navigate("/login"); // Use navigate to redirect to login page
             }
         } catch (error) {
+            console.error("Registration error: ", error); // Log error for debugging
             setError("Error registering user. Please try again.");
         }
     };
 
-    // InputField component
-    const InputField = ({ label, name, type }) => (
+    const inputField = (label, name, type) => (
         <div>
             <label htmlFor={name} className="block text-sm font-medium text-gray-700">
                 {label}
@@ -50,8 +50,7 @@ const RegisterPage = () => {
         </div>
     );
 
-    // Dropdown component
-    const Dropdown = ({ label, name, options }) => (
+    const dropdownField = (label, name, options) => (
         <div>
             <label htmlFor={name} className="block text-sm font-medium text-gray-700">
                 {label}
@@ -82,18 +81,14 @@ const RegisterPage = () => {
                 {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    <InputField label="Name" name="name" type="text" />
-                    <InputField label="Email" name="email" type="email" />
-                    <InputField label="Password" name="password" type="password" />
-                    <InputField label="Phone Number" name="phone" type="text" />
-                    <Dropdown
-                        label="Payment Type"
-                        name="paymentType"
-                        options={[
-                            { label: "Flat", value: "flat" },
-                            { label: "Weight-Based", value: "weight_based" },
-                        ]}
-                    />
+                    {inputField("Name", "name", "text")}
+                    {inputField("Email", "email", "email")}
+                    {inputField("Password", "password", "password")}
+                    {inputField("Phone Number", "phone", "text")}
+                    {dropdownField("Payment Type", "paymentType", [
+                        { label: "Flat", value: "flat" },
+                        { label: "Weight-Based", value: "weight_based" },
+                    ])}
                     <button
                         type="submit"
                         className="w-full py-3 px-6 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition duration-300 ease-in-out"
@@ -103,7 +98,12 @@ const RegisterPage = () => {
                 </form>
 
                 <div className="mt-4 text-center">
-                    <p className="text-sm text-gray-500">Already have an account? <a href="/login" className="text-indigo-600 hover:text-indigo-800 font-semibold">Login here</a></p>
+                    <p className="text-sm text-gray-500">
+                        Already have an account?{" "}
+                        <a href="/login" className="text-indigo-600 hover:text-indigo-800 font-semibold">
+                            Login here
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>

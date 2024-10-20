@@ -33,4 +33,9 @@ public class GarbageBinController {
     public void deleteGarbageBin(@PathVariable Long id) {
         garbageBinService.deleteGarbageBin(id);
     }
+
+    @PutMapping("/{id}")
+    public GarbageBin updateGarbageBin(@PathVariable Long id, @RequestBody GarbageBin garbageBinDetails) {
+        return garbageBinService.updateGarbageBin(id, garbageBinDetails);
+    }
 }
