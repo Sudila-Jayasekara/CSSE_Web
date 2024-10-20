@@ -3,7 +3,10 @@ import { specialWasteService } from '../../../services/WasteManagement/SpecialWa
 import { paymentService } from '../../../services/paymentService';
 import PaymentModal from '../PaymentModel';
 
-const SpecialWasteItem = ({ item, handleDelete, handlePaymentClick }) => {
+const SpecialWasteItem = ({ item, handleDelete, handlePaymentClick, userRole }) => {
+  const [cost, setCost] = useState(null); // State to hold the payment amount
+  const [loadingCost, setLoadingCost] = useState(true); // State for loading indicator
+
   const formatDateTime = (dateTime) => {
     const dateObj = new Date(dateTime);
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -17,6 +20,26 @@ const SpecialWasteItem = ({ item, handleDelete, handlePaymentClick }) => {
 
   const { formattedDate, formattedTime } = formatDateTime(item.dateTime);
 
+  // Fetch the cost when the component mounts
+  useEffect(() => {
+    const fetchCost = async (id) => {
+      try {
+        const payment = await paymentService.getPaymentBySpecialWasteId(id);
+        if (payment) {
+          setCost(payment.amount); // Assuming the payment object has an 'amount' property
+        } else {
+          setCost(null); // No payment found
+        }
+      } catch (error) {
+        console.error('Error fetching payment:', error);
+      } finally {
+        setLoadingCost(false);
+      }
+    };
+
+    fetchCost(item.id); // Fetch cost using item ID
+  }, [item.id]);
+
   return (
     <tr key={item.id} className="border-t">
       <td className="py-3 px-4 text-gray-800">{item.id}</td>
@@ -24,14 +47,26 @@ const SpecialWasteItem = ({ item, handleDelete, handlePaymentClick }) => {
       <td className="py-3 px-4 text-gray-800">{item.description}</td>
       <td className="py-3 px-4 text-gray-800">{formattedDate}</td>
       <td className="py-3 px-4 text-gray-800">{formattedTime}</td>
-      <td className="py-3 px-4 text-gray-800">{item.user?.name || 'N/A'}</td>
+      <td className="py-3 px-4 text-gray-800">
+        {loadingCost ? (
+          'Loading...' // Loading indicator
+        ) : (
+          cost !== null ? (
+            cost // Display payment amount if found
+          ) : (
+            'No payment found' // Display message if no payment exists
+          )
+        )}
+      </td>
       <td className="py-3 px-4">
-        <button
-          onClick={() => handlePaymentClick(item)}
-          className="text-green-500 hover:text-green-700 mr-2"
-        >
-          Payment
-        </button>
+        {userRole === 'USER' && cost === null && (
+          <button
+            onClick={() => handlePaymentClick(item)}
+            className="text-green-500 hover:text-green-700 mr-2"
+          >
+            Payment
+          </button>
+        )}
         <button
           onClick={() => handleDelete(item.id)}
           className="text-red-500 hover:text-red-700"
@@ -43,7 +78,7 @@ const SpecialWasteItem = ({ item, handleDelete, handlePaymentClick }) => {
   );
 };
 
-const WasteTable = ({ specialWastes, handleDelete, handlePaymentClick }) => {
+const WasteTable = ({ specialWastes, handleDelete, handlePaymentClick, userRole }) => {
   return (
     <table className="min-w-full table-auto border-collapse">
       <thead className="bg-blue-600 text-white">
@@ -53,8 +88,8 @@ const WasteTable = ({ specialWastes, handleDelete, handlePaymentClick }) => {
           <th className="py-3 px-4 text-left">Description</th>
           <th className="py-3 px-4 text-left">Date</th>
           <th className="py-3 px-4 text-left">Time</th>
-          <th className="py-3 px-4 text-left">User</th>
-          <th className="py-3 px-4 text-left">Actions</th>
+          <th className="py-3 px-4 text-left">Cost</th>
+           <th className="py-3 px-4 text-left">Actions</th>  {/*don't want display if cost is not null */}
         </tr>
       </thead>
       <tbody>
@@ -64,6 +99,7 @@ const WasteTable = ({ specialWastes, handleDelete, handlePaymentClick }) => {
             item={item}
             handleDelete={handleDelete}
             handlePaymentClick={handlePaymentClick}
+            userRole={userRole}  // Pass userRole to SpecialWasteItem
           />
         ))}
       </tbody>
@@ -162,6 +198,7 @@ const SpecialWastes = () => {
             specialWastes={specialWastes}
             handleDelete={handleDelete}
             handlePaymentClick={handlePaymentClick}
+            userRole={userRole}  // Pass userRole to WasteTable
           />
         </div>
       </div>
