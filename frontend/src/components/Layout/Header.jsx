@@ -1,22 +1,30 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/CSSELogo.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import logo from '../../assets/CSSELogo.png';
 
 const Header = () => {
   const navigate = useNavigate();
+
+  // Check if the user is stored in localStorage
+  const user = localStorage.getItem('user');
 
   const handleProfileClick = () => {
     navigate('/profile');
   };
 
+  const handleRegisterClick = () => {
+    navigate('/register');
+  };
+
   return (
     <header className="bg-gray-800 text-white flex justify-between items-center h-16 px-4">
-<div className="flex items-center justify-center">
-  <div className="bg-white w-20 h-10 rounded-lg p-2 flex items-center justify-center overflow-hidden"> {/* Container with fixed size */}
-    <img className="h-10 w-10" src={logo} alt="Logo" /> {/* Increase the logo size */}
-  </div>
-</div>
-
+      <div className="flex items-center justify-center">
+        <div className="bg-white w-20 h-10 rounded-lg p-2 flex items-center justify-center overflow-hidden">
+          <img className="h-10 w-10" src={logo} alt="Logo" />
+        </div>
+      </div>
 
       {/* Navigation Links (Hidden on small screens) */}
       <div className="hidden md:flex space-x-10">
@@ -38,19 +46,23 @@ const Header = () => {
         </button>
       </div>
 
-      {/* User Profile Menu */}
+      {/* Conditionally render user icon or Register button */}
       <div className="hidden md:flex items-center space-x-4">
-        <img
-          className="h-8 w-8 rounded-full"
-          src="https://via.placeholder.com/40"
-          alt="User Avatar"
-        />
-        <button
-          onClick={handleProfileClick}
-          className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg"
-        >
-          Profile
-        </button>
+        {user ? (
+          <div
+            onClick={handleProfileClick}
+            className="h-8 w-8 bg-white rounded-full flex items-center justify-center cursor-pointer"
+          >
+            <FontAwesomeIcon icon={faUser} className="text-gray-800" />
+          </div>
+        ) : (
+          <button
+            onClick={handleRegisterClick}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+          >
+            Register
+          </button>
+        )}
       </div>
 
       {/* Mobile Menu Button */}
