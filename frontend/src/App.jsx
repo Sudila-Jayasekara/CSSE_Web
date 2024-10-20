@@ -10,6 +10,7 @@ import LogoutPage from './pages/User/LogoutPage';
 import RegisterPage from './pages/User/RegisterPage';
 import Users from './pages/User/Users';
 import Profile from './pages/User/ProfilePage';
+import AdminDashboard from './pages/AdminDashboard';
 
 // Data Analytics
 import AnalyicsDashboard from './pages/DataAnalytics/AnalyticsDashboard';
@@ -47,6 +48,8 @@ function App() {
         <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
         <Route path='/users' element={<Layout><Users /></Layout>} />
         <Route path='/profile' element={<Layout><Profile /></Layout>} />
+        <Route path='/admin-dashboard' element={<Layout><AdminDashboard /></Layout>} />
+
 
         
         {/* Data Analytics */}
